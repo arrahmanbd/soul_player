@@ -17,12 +17,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: AudioPlayerWidget(),
-        ),
-      ),
+    return  MaterialApp(
+      debugShowCheckedModeBanner: false,
+      themeMode: ThemeMode.dark,
+      theme: ThemeData.dark(useMaterial3: true,),
+      home: const StartPage()
     );
   }
 }
