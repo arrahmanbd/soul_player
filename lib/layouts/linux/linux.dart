@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:libadwaita/libadwaita.dart';
+import 'package:libadwaita_window_manager/libadwaita_window_manager.dart';
 import 'package:soul_player/core/styles/theme_text.dart';
 import 'package:soul_player/global/extensions/contex.dart';
 import 'package:soul_player/layouts/linux/features/home_page.dart';
@@ -10,7 +12,14 @@ class LinuxApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return AdwScaffold(
+      actions: AdwActions().windowManager,
+      end: const [
+          AdwHeaderButton(
+          icon: Icon(Icons.update, size: 15),
+          ),
+      ],
+      title: const Text('Soul Player'),
       body: Row(
         children: [
           if (context.sizeWidth > 850) const SideDrawer(),
@@ -20,6 +29,7 @@ class LinuxApp extends StatelessWidget {
         ],
       ),
     );
+ 
   }
 }
 

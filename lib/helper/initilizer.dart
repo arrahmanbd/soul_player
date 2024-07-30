@@ -1,3 +1,11 @@
+import 'dart:ui';
+
+import 'package:adwaita/adwaita.dart';
+import 'package:flutter/material.dart';
+import 'package:libadwaita/libadwaita.dart';
+import 'package:libadwaita_window_manager/libadwaita_window_manager.dart';
+import 'package:window_manager/window_manager.dart';
+
 import 'package:metadata_god/metadata_god.dart';
 import 'package:on_audio_room/on_audio_room.dart';
 import 'package:soul_player/utils/device_utils.dart';
@@ -5,7 +13,7 @@ import 'package:soul_player/utils/device_utils.dart';
 class StartupService {
   StartupService._StartupService();
 
- static Future<void> initialize() async {
+  static Future<void> initialize() async {
     if (GlobalUtils.mobile) {
       //  Initialize database for mobile
       await OnAudioRoom().initRoom();
@@ -19,6 +27,20 @@ class StartupService {
     if (GlobalUtils.desktop) {
       //  Initialize Metadata Extractor
       MetadataGod.initialize();
+      await windowManager.ensureInitialized();
+
+      WindowOptions windowOptions = const WindowOptions(
+        size: Size(1000, 600),
+        backgroundColor: Colors.transparent,
+        skipTaskbar: false,
+        titleBarStyle: TitleBarStyle.hidden,
+      );
+
+      await windowManager.waitUntilReadyToShow(windowOptions, () async {
+        await windowManager.setAsFrameless();
+        await windowManager.show();
+        await windowManager.focus();
+      });
     }
   }
 }

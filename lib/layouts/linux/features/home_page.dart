@@ -22,7 +22,7 @@ class LinuxHome extends StatelessWidget {
       drawer: context.sizeWidth < 850 ? const SideDrawer() : null,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: const Text('Hey Nikhi,',
+        title: const Text('Hey Himu,',
             style: TextStyle(
                 color: deepDark, fontSize: 24, fontWeight: FontWeight.bold)),
         actions: [
