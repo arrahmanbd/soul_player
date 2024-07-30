@@ -1,28 +1,19 @@
 import 'dart:io';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:soul_player/core/errors/exception.dart';
+import 'package:soul_player/utils/device_utils.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-import 'package:broken_soul/models/song_model.dart';
+import 'package:soul_player/database/local_abstract.dart';
+import 'package:soul_player/layouts/linux/models/song_model.dart';
 
-class SongDatabaseHelper {
-  static const _databaseName = 'songs.db';
-  static const _databaseVersion = 1;
+import '../core/constants/database_constants.dart';
 
-  static const tableSongs = 'songs';
-  static const columnId = '_id';
-  static const columnLocation = 'location';
-  static const columnTitle = 'title';
-  static const columnArtist = 'artist';
-  static const columnAlbum = 'album';
-  static const columnGenre = 'genre';
-  static const columnFileSize = 'fileSize';
-  static const columnFolder = 'folder';
-  static const columnIsPlaying = 'isPlaying';
-  static const columnPicture = 'picture';
-
+class SongDatabaseHelper implements SongLibrary {
   // Singleton instance
   static Database? _database;
 
@@ -32,78 +23,177 @@ class SongDatabaseHelper {
       SongDatabaseHelper._privateConstructor();
 
   // Getter for the database instance
+  @override
   Future<Database> get database async {
     if (_database != null) return _database!;
-
     // Lazily instantiate the db the first time it is accessed
     _database = await _initDatabase();
     return _database!;
   }
 
-  // Initialize the database
+  //Initilazie for Android IOS Mac and Linux
   Future<Database> _initDatabase() async {
-    // Init ffi loader if needed.
-    sqfliteFfiInit();
+    bool desktop = GlobalUtils.desktop;
+    Future<String> getPath() async {
+      if (!desktop) {
+        var dataBasePath = await getDatabasesPath();
+        String path = join(dataBasePath, "music.db");
+        return path;
+      }
+      Directory documentsDirectory = await getApplicationDocumentsDirectory();
+      String path = join(documentsDirectory.path, databaseName);
+      return path;
+    }
 
-    var databaseFactory = databaseFactoryFfi;
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, _databaseName);
-    return await databaseFactory.openDatabase(path,
-        options: OpenDatabaseOptions(
-            version: _databaseVersion, onCreate: _onCreate));
+    String path = await getPath();
+    // Platform check to use appropriate database factory
+    dynamic databaseFactory;
+    if (desktop) {
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
+    } else if (Platform.isAndroid || Platform.isIOS) {
+      databaseFactory = databaseFactory;
+    } else {
+      throw UnsupportedError('Platform not supported');
+    }
+
+    // Check if the database exists
+
+    bool databaseExists = await databaseFactory.databaseExists(path);
+    if (!databaseExists) {
+      Report(message: 'No Dotabase! Creating New');
+      return await databaseFactory.openDatabase(path,
+          options: OpenDatabaseOptions(
+              version: databaseVersion, onCreate: _onCreate));
+    }
+
+    // Else return old db
+    Report(message: 'Database Exists! Reading Database');
+    return await databaseFactory.openDatabase(path);
   }
 
-  // Create the songs table
+  // Create the songs and additional tables
   Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE $tableSongs (
+     CREATE TABLE $table (
         $columnId INTEGER PRIMARY KEY,
         $columnLocation TEXT NOT NULL,
-        $columnTitle TEXT,
+        $columnTitle TEXT NOT NULL,
+        $columnDurationMs REAL,
         $columnArtist TEXT,
         $columnAlbum TEXT,
+        $columnAlbumArtist TEXT,
+        $columnTrackNumber INTEGER,
+        $columnTrackTotal INTEGER,
+        $columnDiscNumber INTEGER,
+        $columnDiscTotal INTEGER,
+        $columnYear INTEGER,
         $columnGenre TEXT,
+        $columnPicture TEXT,
         $columnFileSize INTEGER,
-        $columnFolder TEXT,
         $columnIsPlaying INTEGER,
-        $columnPicture BLOB
+        $columnFolder TEXT NOT NULL
       )
-      ''');
+    ''');
+
+    await db.execute('''
+      CREATE TABLE $favoriteTable (
+        $columnId INTEGER PRIMARY KEY,
+        $columnLocation TEXT NOT NULL,
+        $columnTitle TEXT NOT NULL,
+        $columnDurationMs REAL,
+        $columnArtist TEXT,
+        $columnAlbum TEXT,
+        $columnAlbumArtist TEXT,
+        $columnTrackNumber INTEGER,
+        $columnTrackTotal INTEGER,
+        $columnDiscNumber INTEGER,
+        $columnDiscTotal INTEGER,
+        $columnYear INTEGER,
+        $columnGenre TEXT,
+        $columnPicture TEXT,
+        $columnFileSize INTEGER,
+        $columnIsPlaying INTEGER,
+        $columnFolder TEXT NOT NULL
+      )
+    ''');
+
+    await db.execute('''
+      CREATE TABLE $recentPlayedTable (
+        $columnId INTEGER PRIMARY KEY,
+        $columnLocation TEXT NOT NULL,
+        $columnTitle TEXT NOT NULL,
+        $columnDurationMs REAL,
+        $columnArtist TEXT,
+        $columnAlbum TEXT,
+        $columnAlbumArtist TEXT,
+        $columnTrackNumber INTEGER,
+        $columnTrackTotal INTEGER,
+        $columnDiscNumber INTEGER,
+        $columnDiscTotal INTEGER,
+        $columnYear INTEGER,
+        $columnGenre TEXT,
+        $columnPicture TEXT,
+        $columnFileSize INTEGER,
+        $columnIsPlaying INTEGER,
+        $columnFolder TEXT NOT NULL,
+        lastPlayed TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    ''');
+
+    await db.execute('''
+      CREATE TABLE $playlistsTable (
+        playlistId INTEGER PRIMARY KEY,
+        playlistName TEXT NOT NULL
+      )
+    ''');
+
+    await db.execute('''
+      CREATE TABLE $playlistSongsTable (
+        playlistId INTEGER,
+        songId INTEGER,
+        FOREIGN KEY (playlistId) REFERENCES $playlistsTable (playlistId),
+        FOREIGN KEY (songId) REFERENCES $table ($columnId)
+      )
+    ''');
   }
 
   // Insert a song into the database
-  Future<int> insertSong(SongModel song) async {
+  @override
+  Future<int> insertSong(AudioModel song) async {
     Database db = await instance.database;
-    return await db.insert(tableSongs, song.toMap());
+    return await db.insert(table, song.toMap());
   }
 
   // Get all songs from the database
-  Future<List<SongModel>> getAllSongs() async {
+  @override
+  Future<List<AudioModel>> getAllSongs() async {
     Database db = await instance.database;
-    List<Map<String, dynamic>> maps = await db.query(tableSongs);
+    List<Map<String, dynamic>> maps = await db.query(table);
     return List.generate(maps.length, (i) {
-      return SongModel.fromMap(maps[i]);
+      return AudioModel.fromMap(maps[i]);
     });
   }
 
   // Get songs by folder
-  Future<List<SongModel>> getSongsByFolder(String folderName) async {
+  @override
+  Future<List<AudioModel>> getSongsByFolder(String folderName) async {
     Database db = await instance.database;
-    List<Map<String, dynamic>> maps = await db.query(tableSongs,
-        where: '$columnFolder = ?',
-        whereArgs: [folderName]);
+    List<Map<String, dynamic>> maps = await db
+        .query(table, where: '$columnFolder = ?', whereArgs: [folderName]);
     return List.generate(maps.length, (i) {
-      return SongModel.fromMap(maps[i]);
+      return AudioModel.fromMap(maps[i]);
     });
   }
-   // Get songs by genre
-  Future<List<SongModel>> getSongsByGenre(String genreName) async {
+
+  // Get songs by genre
+  @override
+  Future<List<AudioModel>> getSongsByGenre(String genreName) async {
     Database db = await instance.database;
-    List<Map<String, dynamic>> maps = await db.query(tableSongs,
-        where: '$columnGenre = ?',
-        whereArgs: [genreName]);
+    List<Map<String, dynamic>> maps = await db
+        .query(table, where: '$columnGenre = ?', whereArgs: [genreName]);
     return List.generate(maps.length, (i) {
-      return SongModel(
+      return AudioModel(
         location: maps[i][columnLocation],
         title: maps[i][columnTitle],
         artist: maps[i][columnArtist],
@@ -115,14 +205,15 @@ class SongDatabaseHelper {
       );
     });
   }
-   // Get songs by album
-  Future<List<SongModel>> getSongsByAlbum(String albumName) async {
+
+  // Get songs by album
+  @override
+  Future<List<AudioModel>> getSongsByAlbum(String albumName) async {
     Database db = await instance.database;
-    List<Map<String, dynamic>> maps = await db.query(tableSongs,
-        where: '$columnAlbum = ?',
-        whereArgs: [albumName]);
+    List<Map<String, dynamic>> maps = await db
+        .query(table, where: '$columnAlbum = ?', whereArgs: [albumName]);
     return List.generate(maps.length, (i) {
-      return SongModel(
+      return AudioModel(
         location: maps[i][columnLocation],
         title: maps[i][columnTitle],
         artist: maps[i][columnArtist],
@@ -134,14 +225,15 @@ class SongDatabaseHelper {
       );
     });
   }
+
   // Get songs by artist
-  Future<List<SongModel>> getSongsByArtist(String artistName) async {
+  @override
+  Future<List<AudioModel>> getSongsByArtist(String artistName) async {
     Database db = await instance.database;
-    List<Map<String, dynamic>> maps = await db.query(tableSongs,
-        where: '$columnArtist = ?',
-        whereArgs: [artistName]);
+    List<Map<String, dynamic>> maps = await db
+        .query(table, where: '$columnArtist = ?', whereArgs: [artistName]);
     return List.generate(maps.length, (i) {
-      return SongModel(
+      return AudioModel(
         location: maps[i][columnLocation],
         title: maps[i][columnTitle],
         artist: maps[i][columnArtist],
@@ -154,16 +246,131 @@ class SongDatabaseHelper {
     });
   }
 
-
-  //get artists
   // Get all distinct artists from the database
+  @override
   Future<List<String>> getAllArtists() async {
     Database db = await instance.database;
     List<Map<String, dynamic>> maps = await db.rawQuery('''
-      SELECT DISTINCT $columnArtist FROM $tableSongs;
+      SELECT DISTINCT $columnArtist FROM $table;
     ''');
     return List.generate(maps.length, (i) {
       return maps[i][columnArtist] as String;
     });
   }
+
+  // Get all distinct folders from the database
+  @override
+  Future<List<String>> getAllFolders() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> maps = await db.rawQuery('''
+      SELECT DISTINCT $columnFolder FROM $table;
+    ''');
+    return List.generate(maps.length, (i) {
+      return maps[i][columnFolder] as String;
+    });
+  }
+
+  // Get all distinct albums from the database
+  @override
+  Future<List<String>> getAllAlbums() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> maps = await db.rawQuery('''
+      SELECT DISTINCT $columnAlbum FROM $table;
+    ''');
+    return List.generate(maps.length, (i) {
+      return maps[i][columnAlbum] as String;
+    });
+  }
+
+  // Get all distinct genres from the database
+  @override
+  Future<List<String>> getAllGenres() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> maps = await db.rawQuery('''
+SELECT DISTINCT $columnGenre FROM $table;
+''');
+    return List.generate(maps.length, (i) {
+      return maps[i][columnGenre] as String;
+    });
+  }
+
+// Add a song to the favorites
+  @override
+  Future<int> addSongToFavorites(AudioModel song) async {
+    Database db = await instance.database;
+    return await db.insert(favoriteTable, song.toMap());
+  }
+
+// Get all favorite songs
+  @override
+  Future<List<AudioModel>> getFavoriteSongs() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> maps = await db.query(favoriteTable);
+    return List.generate(maps.length, (i) {
+      return AudioModel.fromMap(maps[i]);
+    });
+  }
+
+// Add a song to the recently played
+  @override
+  Future<int> addSongToRecentlyPlayed(AudioModel song) async {
+    Database db = await instance.database;
+    return await db.insert(recentPlayedTable, song.toMap());
+  }
+
+// Get all recently played songs
+  @override
+  Future<List<AudioModel>> getRecentlyPlayedSongs() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> maps =
+        await db.query(recentPlayedTable, orderBy: "lastPlayed DESC");
+    return List.generate(maps.length, (i) {
+      return AudioModel.fromMap(maps[i]);
+    });
+  }
+
+// Create a new playlist
+  @override
+  Future<int> createPlaylist(String playlistName) async {
+    Database db = await instance.database;
+    return await db.insert(playlistsTable, {'playlistName': playlistName});
+  }
+
+// Add a song to a playlist
+  @override
+  Future<int> addSongToPlaylist(int playlistId, int songId) async {
+    Database db = await instance.database;
+    return await db.insert(
+        playlistSongsTable, {'playlistId': playlistId, 'songId': songId});
+  }
+
+// Get all songs in a playlist
+  @override
+  Future<List<AudioModel>> getSongsInPlaylist(int playlistId) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> maps = await db.rawQuery('''
+SELECT * FROM $table WHERE $columnId IN (
+SELECT songId FROM $playlistSongsTable WHERE playlistId = ?
+)
+''', [playlistId]);
+    return List.generate(maps.length, (i) {
+      return AudioModel.fromMap(maps[i]);
+    });
+  }
+
+  @override
+  Future<List<String>> getAllPlayList() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> maps = await db.rawQuery('''
+      SELECT DISTINCT "playlistName" FROM $playlistsTable;
+    ''');
+    return List.generate(maps.length, (i) {
+      return maps[i]["playlistName"] as String;
+    });
+  }
 }
+
+///Get the database state using this provider
+final databaseProvider = Provider<SongDatabaseHelper>((ref) {
+  return SongDatabaseHelper.instance;
+});

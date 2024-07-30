@@ -4,6 +4,12 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   audioplayers_linux
+  file_selector_linux
+  gtk
+  screen_retriever
+  tray_manager
+  window_manager
+  yaru_window_linux
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
