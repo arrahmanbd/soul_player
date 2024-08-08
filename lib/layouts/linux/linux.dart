@@ -7,30 +7,54 @@ import 'package:soul_player/global/extensions/contex.dart';
 import 'package:soul_player/layouts/linux/features/home_page.dart';
 import 'package:soul_player/layouts/linux/features/provider/tab_provider.dart';
 
+import 'features/components/playback_control.dart';
+
 class LinuxApp extends StatelessWidget {
   const LinuxApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    return const Scaffold(
+      body: InternalBody(),
+      bottomNavigationBar: PlayBackControl(),
+    );
+  }
+}
+
+class InternalBody extends StatelessWidget {
+  const InternalBody({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+  
     return AdwScaffold(
-      actions: AdwActions().windowManager,
-      end: const [
+        actions: AdwActions().windowManager,
+        end: [
           AdwHeaderButton(
-          icon: Icon(Icons.update, size: 15),
+            icon: const Icon(Icons.search, size: 25),
+            onPressed: () {
+              //showMaterialBanner(context);
+            },
           ),
-      ],
-      title: const Text('Soul Player'),
-      body: Row(
-        children: [
-          if (context.sizeWidth > 850) const SideDrawer(),
-          const Expanded(
-            child: LinuxHome(),
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {},
           ),
         ],
-      ),
+        title: const Text('Soul Player'),
+        body: Row(
+          children: [
+            if (context.sizeWidth > 850) const SideDrawer(),
+            const Expanded(
+              child: LinuxHome(),
+            ),
+          ],
+        ),
+     
     );
- 
   }
+   
+
 }
 
 class SideDrawer extends StatelessWidget {
@@ -49,7 +73,7 @@ class SideDrawer extends StatelessWidget {
           return Column(
             children: [
               ListTile(
-                selected: selected==Tabs.home,
+                selected: selected == Tabs.home,
                 onTap: () {
                   ref.read(tabBarProvider.notifier).state = Tabs.home;
                 },
@@ -60,7 +84,7 @@ class SideDrawer extends StatelessWidget {
                 ),
               ),
               ListTile(
-                selected: selected==Tabs.library,
+                selected: selected == Tabs.library,
                 onTap: () {
                   ref.read(tabBarProvider.notifier).state = Tabs.library;
                 },
@@ -85,7 +109,7 @@ class SideDrawer extends StatelessWidget {
                 ),
               ),
               ListTile(
-                selected: selected==Tabs.settings,
+                selected: selected == Tabs.settings,
                 onTap: () {
                   ref.read(tabBarProvider.notifier).state = Tabs.settings;
                 },

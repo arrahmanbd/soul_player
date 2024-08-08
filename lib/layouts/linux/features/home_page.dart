@@ -20,22 +20,22 @@ class LinuxHome extends StatelessWidget {
     return Scaffold(
       backgroundColor: primary.withOpacity(.15),
       drawer: context.sizeWidth < 850 ? const SideDrawer() : null,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: const Text('Hey Himu,',
-            style: TextStyle(
-                color: deepDark, fontSize: 24, fontWeight: FontWeight.bold)),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings_outlined),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: const Icon(Icons.person_outline),
-            onPressed: () {},
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.transparent,
+      //   title: const Text('Hey Himu,',
+      //       style: TextStyle(
+      //           color: deepDark, fontSize: 24, fontWeight: FontWeight.bold)),
+      //   actions: [
+      //     IconButton(
+      //       icon: const Icon(Icons.settings_outlined),
+      //       onPressed: () {},
+      //     ),
+      //     IconButton(
+      //       icon: const Icon(Icons.person_outline),
+      //       onPressed: () {},
+      //     ),
+      //   ],
+      // ),
       body: Container(
         margin: const EdgeInsets.all(10),
         padding: const EdgeInsets.all(16.0),
@@ -57,7 +57,7 @@ class LinuxHome extends StatelessWidget {
           },
         ),
       ),
-      bottomNavigationBar: const PlayBackControl(),
+      
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: Consumer(
         builder: (_, WidgetRef ref, __) {

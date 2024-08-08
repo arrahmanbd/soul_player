@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -88,14 +89,22 @@ class MediaHeader extends StatelessWidget {
                 ),
               ),
               CustomIconButton(
-                icon: Icons.settings_outlined,
+                icon: Icons.notification_important_outlined,
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SettingPage(),
-                    ),
-                  );
+                  AwesomeNotifications().createNotification(
+                      content: NotificationContent(
+                    id: 10,
+                    channelKey: 'basic_channel',
+                    actionType: ActionType.Default,
+                    title: 'Hello World!',
+                    body: 'This is my first notification!',
+                  ));
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => const SettingPage(),
+                  //   ),
+                  // );
                 },
                 effect: false,
               ),

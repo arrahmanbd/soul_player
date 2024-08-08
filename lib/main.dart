@@ -15,11 +15,13 @@ void main(List<String>? args) async {
 }
 
 class MyApp extends ConsumerWidget {
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   final List<String>? args;
   const MyApp(this.args, {super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    
     final virtualWindowFrameBuilder = VirtualWindowFrameInit();
     final linux = GlobalUtils.desktop;
     // Ensure the unilink provider is initialized with the passed arguments

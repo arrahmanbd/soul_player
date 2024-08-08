@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:soul_player/layouts/linux/models/song_model.dart';
+import 'package:soul_player/database/drift/data/database.dart';
+import 'package:soul_player/database/drift/data/dummy_song.dart';
 import 'package:soul_player/layouts/linux/providers/player/player_state.dart';
-import 'package:soul_player/layouts/linux/providers/skins/skin_providers.dart';
 import 'package:soul_player/layouts/linux/services/audio_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,16 +8,14 @@ class LinuxPlayerNotifier extends StateNotifier<PlayerState> {
   final AudioService audioPlayer;
   final Ref ref;
   LinuxPlayerNotifier(this.audioPlayer, this.ref)
-      : super(PlayerState(
-            mode: PlayerMode.stop,
-            currentSong: AudioModel(location: '', title: '', folder: '')));
+      : super(PlayerState(mode: PlayerMode.stop, currentSong: dummySong()));
 
-  void play(AudioModel song) {
+  void play(Song song) {
     state = state.copyWith(mode: PlayerMode.playing, currentSong: song);
     audioPlayer.play(song.location);
-    if (song.picture != null && song.picture!.data.isNotEmpty) {
-      ref.read(skinProvider.notifier).autoSkin(MemoryImage(song.picture!.data));
-    }
+    // if (song.picture != null && song.picture!.data.isNotEmpty) {
+    //   ref.read(skinProvider.notifier).autoSkin(MemoryImage(song.picture!.data));
+    // }
   }
 
   void pause() {
@@ -49,7 +46,7 @@ class LinuxPlayerNotifier extends StateNotifier<PlayerState> {
     state = state.copyWith(volume: volume);
   }
 
-  void setPlaylist(List<AudioModel> playlist, int startIndex) {
+  void setPlaylist(List<Song> playlist, int startIndex) {
     audioPlayer.setPlaylist(playlist, startIndex);
   }
 

@@ -4,7 +4,7 @@ import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:soul_player/core/styles/theme_text.dart';
-import 'package:soul_player/layouts/linux/models/song_model.dart';
+import 'package:soul_player/database/drift/data/database.dart';
 import 'package:soul_player/layouts/linux/providers/player/player_provider.dart';
 
 import 'control_buttons.dart';
@@ -49,11 +49,10 @@ class PlayBackControl extends ConsumerWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: _buildSongImage(player.currentSong)
-                      ,
+                      child: _buildSongImage(player.currentSong),
                     ),
                   ),
-                Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -91,14 +90,17 @@ class PlayBackControl extends ConsumerWidget {
       ),
     );
   }
-  Widget _buildSongImage(AudioModel song) {
-    return song.picture != null && song.picture!.data.isNotEmpty
-        ? Image.memory(
-            song.picture!.data,
-            fit: BoxFit.cover,
-            height: 70,
-            width: 120,
-          )
-        : const Icon(Icons.music_note);
+
+  Widget _buildSongImage(Song song) {
+    return 
+    // song.picture != null && song.picture!.data.isNotEmpty
+    //     ? Image.memory(
+    //         song.picture!.data,
+    //         fit: BoxFit.cover,
+    //         height: 70,
+    //         width: 120,
+    //       )
+    //     : 
+        const Icon(Icons.music_note);
   }
 }

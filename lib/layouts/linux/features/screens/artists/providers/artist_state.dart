@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:soul_player/database/drift/data/database.dart';
 import 'package:soul_player/layouts/linux/models/song_model.dart';
 
 class ArtistState {
@@ -7,7 +8,7 @@ class ArtistState {
   String? totalItem;
   List<String> artist;
   String? selectedArtist;
-  List<AudioModel> songs;
+  List<AudioSong> songs;
   ArtistState({
     required this.isBrowsing,
     required this.loading,
@@ -23,7 +24,7 @@ class ArtistState {
     String? totalItem,
     List<String>? artist,
     String? selectedArtist,
-    List<AudioModel>? songs,
+    List<AudioSong>? songs,
   }) {
     return ArtistState(
       isBrowsing: isBrowsing ?? this.isBrowsing,

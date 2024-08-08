@@ -1,4 +1,3 @@
-import 'package:soul_player/layouts/linux/providers/player/player_provider.dart';
 import 'package:soul_player/layouts/linux/providers/scanner/song_provider.dart';
 import 'package:soul_player/layouts/linux/features/screens/components/songs_card.dart';
 import 'package:flutter/material.dart';

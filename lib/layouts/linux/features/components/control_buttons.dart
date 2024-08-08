@@ -3,8 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:soul_player/layouts/linux/providers/player/player_provider.dart';
 import 'package:soul_player/layouts/mobile/screens/now_playing/widgets/icon_button.dart';
 
-
-
 class ControlButtons extends ConsumerWidget {
   const ControlButtons({
     super.key,
@@ -42,12 +40,10 @@ class ControlButtons extends ConsumerWidget {
 
     void _onTopButtonPress() {
       print('volume up');
-      
     }
 
     void _onBottomButtonPress() {
       print('volume down');
-      
     }
 
     void _onLeftButtonPress() {
@@ -62,7 +58,7 @@ class ControlButtons extends ConsumerWidget {
 
     void _onPlayPauseButtonPress() {
       print('Play/Pause button pressed');
-      if (player.currentSong.isPlaying) {
+      if (player.currentSong.isPlaying==0) {
         ref.read(linuxPlayerProvider.notifier).pause();
       } else {
         ref.read(linuxPlayerProvider.notifier).resume();
@@ -84,12 +80,19 @@ class ControlButtons extends ConsumerWidget {
           radius: 100,
           size: 12,
         ),
-        CustomIconButton(
-          icon: player.currentSong.isPlaying ? Icons.pause : Icons.play_arrow,
-          onPressed: _onPlayPauseButtonPress,
-          radius: 100,
-          size: 18,
-          media: 42,
+        Consumer(
+          builder: (_, WidgetRef ref, __) {
+            final isPlaying = ref.watch(linuxPlayerProvider);
+            return CustomIconButton(
+              icon: isPlaying.currentSong.isPlaying==0
+                  ? Icons.pause
+                  : Icons.play_arrow,
+              onPressed: _onPlayPauseButtonPress,
+              radius: 100,
+              size: 18,
+              media: 42,
+            );
+          },
         ),
         CustomIconButton(
           icon: Icons.skip_next,
@@ -98,7 +101,7 @@ class ControlButtons extends ConsumerWidget {
           size: 12,
         ),
         CustomIconButton(
-          icon: true ? Icons.shuffle : Icons.arrow_forward_rounded,
+          icon: Icons.shuffle,
           onPressed: _shuffle,
           radius: 100,
         )

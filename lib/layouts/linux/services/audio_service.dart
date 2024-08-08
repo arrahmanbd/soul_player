@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:soul_player/core/errors/exception.dart';
+import 'package:soul_player/database/drift/data/database.dart';
 import 'package:soul_player/layouts/linux/providers/player/player_provider.dart';
 import '../models/song_model.dart';
 
@@ -8,7 +9,7 @@ class AudioService {
   final AudioPlayer audioPlayer;
   final Ref ref;
 
-  List<AudioModel> playlist = [];
+  List<Song> playlist = [];
   int currentIndex = -1;
 
   AudioService(this.ref, this.audioPlayer) {
@@ -30,7 +31,7 @@ class AudioService {
     try {
       await audioPlayer.play(DeviceFileSource(songFile));
     } catch (e) {
-      Report(message: e.toString());
+      //Report(message: e.toString());
     }
   }
 
@@ -54,7 +55,7 @@ class AudioService {
     await audioPlayer.seek(Duration(seconds: seekTime));
   }
 
-  Future<void> setPlaylist(List<AudioModel> newplaylist, int startIndex) async {
+  Future<void> setPlaylist(List<Song> newplaylist, int startIndex) async {
     playlist = newplaylist;
     currentIndex = startIndex;
     await play(playlist[currentIndex].location);

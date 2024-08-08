@@ -1,6 +1,7 @@
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:soul_player/database/drift/data/database.dart';
 import 'package:soul_player/helper/linux_uilink.dart';
 import 'package:soul_player/layouts/linux/providers/player/player_provider.dart';
 
@@ -67,12 +68,13 @@ class NowPlayingScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSongImage(AudioModel song) {
-    return song.picture != null && song.picture!.data.isNotEmpty
-        ? Image.memory(
-            song.picture!.data,
-            fit: BoxFit.cover,
-          )
-        : const Icon(Icons.music_note);
+  Widget _buildSongImage(Song song) {
+    return 
+    // song.picture != null && song.picture!.data.isNotEmpty
+    //     ? Image.memory(
+    //         song.picture!.data,
+    //         fit: BoxFit.cover,
+    //       )
+         const Icon(Icons.music_note);
   }
 }

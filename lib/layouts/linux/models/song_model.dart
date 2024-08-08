@@ -2,7 +2,7 @@
 import 'package:metadata_god/metadata_god.dart';
 import 'package:path/path.dart';
 
-class AudioModel {
+class AudioSong {
   final String location;
   final String title;
   final double? durationMs;
@@ -20,7 +20,7 @@ class AudioModel {
   bool isPlaying;
   String folder;
 
-  AudioModel({
+  AudioSong({
     required this.location,
     required this.title,
     this.durationMs,
@@ -40,7 +40,7 @@ class AudioModel {
   });
 
   // Convert SongModel to a Map for database operations
-  Map<String, dynamic> toMap() {
+ Map<String, dynamic> toMap() {
     return {
       'location': location,
       'title': title,
@@ -61,8 +61,8 @@ class AudioModel {
     };
   }
 
-  factory AudioModel.fromMap(Map<String, dynamic> map) {
-    return AudioModel(
+  factory AudioSong.fromMap(Map<String, dynamic> map) {
+    return AudioSong(
       location: map['location'],
       title: map['title'],
       durationMs: map['durationMs'],
@@ -85,7 +85,7 @@ class AudioModel {
   }
 
   //metadata get
-  factory AudioModel.fromMetadata(String location, Metadata metadata) {
+  factory AudioSong.fromMetadata(String location, Metadata metadata) {
     //getting actual folder
     String parentFolder() {
       List<String> p = location.split('/');
@@ -95,8 +95,8 @@ class AudioModel {
     }
 
     final String name = basename(location);
-    //if no title found then set file name as titile
-    return AudioModel(
+    //if no title found then set file name as title
+    return AudioSong(
       location: location,
       title: metadata.title ?? name,
       durationMs: metadata.durationMs ?? 0.0,

@@ -1,21 +1,11 @@
-class Report implements Exception {
+class RepositoryError {
   final String message;
-  final StackTrace stackTrace;
+  final Exception? exception;
 
-  Report({
-    required this.message,
-    this.stackTrace = StackTrace.empty,
-  }) {
-    devLog();
-  }
-  void devLog() {
-    if (message.isNotEmpty) {
-      print(message);
-    }
-  }
+  RepositoryError(this.message, {this.exception});
 
   @override
   String toString() {
-    return 'AppException{message: $message, statusCode: $stackTrace';
+    return message;
   }
 }

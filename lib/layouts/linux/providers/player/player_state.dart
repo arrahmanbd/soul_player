@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:soul_player/layouts/linux/models/song_model.dart'; // Import your SongModel
+import 'package:soul_player/database/drift/data/database.dart'; // Import your SongModel
 
 enum PlayerMode { playing, paused, stop }
 
@@ -7,7 +7,7 @@ class PlayerState extends Equatable {
   final PlayerMode mode;
   final Duration duration;
   final Duration position;
-  final AudioModel currentSong; // Updated to SongModel
+  final Song currentSong; // Updated to SongModel
   final double volume;
 
   PlayerState({
@@ -22,7 +22,7 @@ class PlayerState extends Equatable {
     PlayerMode? mode,
     Duration? duration,
     Duration? position,
-    AudioModel? currentSong, // Updated to SongModel
+    Song? currentSong, // Updated to SongModel
     double? volume,
   }) {
     return PlayerState(

@@ -57,8 +57,10 @@ class ArtistSongs extends ConsumerWidget {
                           decoration: BoxDecoration(
                             image:  DecorationImage(
                               fit: BoxFit.cover,
-                                image: file.picture!=null? MemoryImage(
-                                    songs.songs[index].picture!.data): AssetImage('assets/images/thumb.jpg')),
+                                image: 
+                                // file.picture!=null? MemoryImage(
+                                //     songs.songs[index].picture!.data): 
+                                    AssetImage('assets/images/thumb.jpg')),
                             color: YaruColors.blue.withOpacity(.35),
                             borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(10),

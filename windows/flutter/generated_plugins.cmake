@@ -5,8 +5,11 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   app_links
   audioplayers_windows
+  awesome_notifications
+  awesome_notifications_core
   file_selector_windows
   screen_retriever
+  sqlite3_flutter_libs
   tray_manager
   url_launcher_windows
   window_manager

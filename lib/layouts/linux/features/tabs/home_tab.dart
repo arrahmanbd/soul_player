@@ -3,7 +3,6 @@ import 'package:soul_player/global/extensions/contex.dart';
 import 'package:soul_player/layouts/linux/features/widgets/song_card.dart';
 
 import '../components/recently_played.dart';
-import '../home_page.dart';
 import '../widgets/headline.dart';
 import '../widgets/search_widget.dart';
 import '../widgets/song_tile.dart';

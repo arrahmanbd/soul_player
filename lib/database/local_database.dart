@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:soul_player/core/errors/exception.dart';
+import 'package:soul_player/layouts/linux/models/song_model.dart';
 import 'package:soul_player/utils/device_utils.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import 'package:soul_player/database/local_abstract.dart';
-import 'package:soul_player/layouts/linux/models/song_model.dart';
+import 'package:soul_player/database/drift/data/database.dart';
 
 import '../core/constants/database_constants.dart';
 
@@ -61,14 +61,14 @@ class SongDatabaseHelper implements SongLibrary {
 
     bool databaseExists = await databaseFactory.databaseExists(path);
     if (!databaseExists) {
-      Report(message: 'No Dotabase! Creating New');
+      //Report(message: 'No Dotabase! Creating New');
       return await databaseFactory.openDatabase(path,
           options: OpenDatabaseOptions(
               version: databaseVersion, onCreate: _onCreate));
     }
 
     // Else return old db
-    Report(message: 'Database Exists! Reading Database');
+    //Report(message: 'Database Exists! Reading Database');
     return await databaseFactory.openDatabase(path);
   }
 
@@ -159,41 +159,42 @@ class SongDatabaseHelper implements SongLibrary {
   }
 
   // Insert a song into the database
-  @override
-  Future<int> insertSong(AudioModel song) async {
-    Database db = await instance.database;
-    return await db.insert(table, song.toMap());
-  }
+  // @override
+  // Future<int> insertSong(AudioSong song) async {
+  //   Database db = await instance.database;
+  //   //return await db.insert(table, AudioSong.toMap());
+  //   return 0;
+  // }
 
   // Get all songs from the database
   @override
-  Future<List<AudioModel>> getAllSongs() async {
+  Future<List<AudioSong>> getAllSongs() async {
     Database db = await instance.database;
     List<Map<String, dynamic>> maps = await db.query(table);
     return List.generate(maps.length, (i) {
-      return AudioModel.fromMap(maps[i]);
+      return AudioSong.fromMap(maps[i]);
     });
   }
 
   // Get songs by folder
   @override
-  Future<List<AudioModel>> getSongsByFolder(String folderName) async {
+  Future<List<AudioSong>> getSongsByFolder(String folderName) async {
     Database db = await instance.database;
     List<Map<String, dynamic>> maps = await db
         .query(table, where: '$columnFolder = ?', whereArgs: [folderName]);
     return List.generate(maps.length, (i) {
-      return AudioModel.fromMap(maps[i]);
+      return AudioSong.fromMap(maps[i]);
     });
   }
 
   // Get songs by genre
   @override
-  Future<List<AudioModel>> getSongsByGenre(String genreName) async {
+  Future<List<AudioSong>> getSongsByGenre(String genreName) async {
     Database db = await instance.database;
     List<Map<String, dynamic>> maps = await db
         .query(table, where: '$columnGenre = ?', whereArgs: [genreName]);
     return List.generate(maps.length, (i) {
-      return AudioModel(
+      return AudioSong(
         location: maps[i][columnLocation],
         title: maps[i][columnTitle],
         artist: maps[i][columnArtist],
@@ -208,12 +209,12 @@ class SongDatabaseHelper implements SongLibrary {
 
   // Get songs by album
   @override
-  Future<List<AudioModel>> getSongsByAlbum(String albumName) async {
+  Future<List<AudioSong>> getSongsByAlbum(String albumName) async {
     Database db = await instance.database;
     List<Map<String, dynamic>> maps = await db
         .query(table, where: '$columnAlbum = ?', whereArgs: [albumName]);
     return List.generate(maps.length, (i) {
-      return AudioModel(
+      return AudioSong(
         location: maps[i][columnLocation],
         title: maps[i][columnTitle],
         artist: maps[i][columnArtist],
@@ -228,12 +229,12 @@ class SongDatabaseHelper implements SongLibrary {
 
   // Get songs by artist
   @override
-  Future<List<AudioModel>> getSongsByArtist(String artistName) async {
+  Future<List<AudioSong>> getSongsByArtist(String artistName) async {
     Database db = await instance.database;
     List<Map<String, dynamic>> maps = await db
         .query(table, where: '$columnArtist = ?', whereArgs: [artistName]);
     return List.generate(maps.length, (i) {
-      return AudioModel(
+      return AudioSong(
         location: maps[i][columnLocation],
         title: maps[i][columnTitle],
         artist: maps[i][columnArtist],
@@ -295,37 +296,38 @@ SELECT DISTINCT $columnGenre FROM $table;
   }
 
 // Add a song to the favorites
-  @override
-  Future<int> addSongToFavorites(AudioModel song) async {
-    Database db = await instance.database;
-    return await db.insert(favoriteTable, song.toMap());
-  }
+  // @override
+  // Future<int> addSongToFavorites(Song song) async {
+  //   // Database db = await instance.database;
+  //   // return await db.insert(favoriteTable, AudioSong.toMap());
+  // }
 
 // Get all favorite songs
   @override
-  Future<List<AudioModel>> getFavoriteSongs() async {
+  Future<List<AudioSong>> getFavoriteSongs() async {
     Database db = await instance.database;
     List<Map<String, dynamic>> maps = await db.query(favoriteTable);
     return List.generate(maps.length, (i) {
-      return AudioModel.fromMap(maps[i]);
+      return AudioSong.fromMap(maps[i]);
     });
   }
 
 // Add a song to the recently played
-  @override
-  Future<int> addSongToRecentlyPlayed(AudioModel song) async {
-    Database db = await instance.database;
-    return await db.insert(recentPlayedTable, song.toMap());
-  }
+  // @override
+  // Future<int> addSongToRecentlyPlayed(AudioSong song) async {
+  //   return 0;
+  //   // Database db = await instance.database;
+  //   // return await db.insert(recentPlayedTable, AudioSong.toMap());
+  // }
 
 // Get all recently played songs
   @override
-  Future<List<AudioModel>> getRecentlyPlayedSongs() async {
+  Future<List<AudioSong>> getRecentlyPlayedSongs() async {
     Database db = await instance.database;
     List<Map<String, dynamic>> maps =
         await db.query(recentPlayedTable, orderBy: "lastPlayed DESC");
     return List.generate(maps.length, (i) {
-      return AudioModel.fromMap(maps[i]);
+      return AudioSong.fromMap(maps[i]);
     });
   }
 
@@ -346,7 +348,7 @@ SELECT DISTINCT $columnGenre FROM $table;
 
 // Get all songs in a playlist
   @override
-  Future<List<AudioModel>> getSongsInPlaylist(int playlistId) async {
+  Future<List<AudioSong>> getSongsInPlaylist(int playlistId) async {
     Database db = await instance.database;
     List<Map<String, dynamic>> maps = await db.rawQuery('''
 SELECT * FROM $table WHERE $columnId IN (
@@ -354,7 +356,7 @@ SELECT songId FROM $playlistSongsTable WHERE playlistId = ?
 )
 ''', [playlistId]);
     return List.generate(maps.length, (i) {
-      return AudioModel.fromMap(maps[i]);
+      return AudioSong.fromMap(maps[i]);
     });
   }
 
