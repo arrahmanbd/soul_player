@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaru/yaru.dart';
 
 import 'package:soul_player/layouts/linux/providers/player/player_provider.dart';
-import 'package:soul_player/layouts/linux/providers/scanner/song_provider.dart';
+import 'package:soul_player/layouts/linux/features/library_scan/controller/lib_scanner.dart';
 import 'package:soul_player/layouts/linux/features/screens/components/songs_card.dart';
 
 class CommonList extends ConsumerWidget {
@@ -40,7 +40,7 @@ class CommonList extends ConsumerWidget {
         ElevatedButton(
             onPressed: () async {
               // Trigger getAllSongs to start scanning songs
-              final songScanner = ref.read(scanProvider.notifier);
+              final songScanner = ref.read(libraryScanerProvider.notifier);
               await songScanner.getAllSongs();
             },
             child: const Text('Scan Library')),

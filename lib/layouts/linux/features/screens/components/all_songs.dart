@@ -1,4 +1,4 @@
-import 'package:soul_player/layouts/linux/providers/scanner/song_provider.dart';
+import 'package:soul_player/layouts/linux/features/library_scan/controller/lib_scanner.dart';
 import 'package:soul_player/layouts/linux/features/screens/components/songs_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,28 +9,39 @@ class ScanAllSongs extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final songScanState = ref.watch(scanProvider);
-    if (songScanState.isloading) {
-      return const Center(
-        child: YaruCircularProgressIndicator(),
+    final songScanState = ref.watch(libraryScanerProvider);
+    if (songScanState.isEmpty) {
+      return Column(
+        children: [
+          const Center(
+            child: YaruCircularProgressIndicator(),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              // Trigger getAllSongs to start scanning songs
+              final songScanner = ref.read(libraryScanerProvider.notifier);
+              await songScanner.getAllSongs();
+            },
+            child: const Text('Scan Library')),
+        ],
       );
     }
 
-    if (songScanState.songs.isNotEmpty) {
-      return SongList(songs: songScanState.songs);
+    if (songScanState.isNotEmpty) {
+      return SongList(songs: songScanState);
     }
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        if (songScanState.errorMsg.isNotEmpty) Text(songScanState.errorMsg),
+        //if (songScanState.errorMsg.isNotEmpty) Text(songScanState.errorMsg),
         const YaruCircularProgressIndicator(),
         const Text('Collection is Empty'),
         const SizedBox(height: 50.0),
         ElevatedButton(
             onPressed: () async {
               // Trigger getAllSongs to start scanning songs
-              final songScanner = ref.read(scanProvider.notifier);
+              final songScanner = ref.read(libraryScanerProvider.notifier);
               await songScanner.getAllSongs();
             },
             child: const Text('Scan Library')),

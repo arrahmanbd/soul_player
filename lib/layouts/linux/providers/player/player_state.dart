@@ -10,7 +10,7 @@ class PlayerState extends Equatable {
   final Song currentSong; // Updated to SongModel
   final double volume;
 
-  PlayerState({
+  const PlayerState({
     required this.mode,
     required this.currentSong, // Updated to SongModel
     this.duration = Duration.zero,

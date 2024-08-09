@@ -6,7 +6,7 @@ import 'package:soul_player/layouts/linux/features/provider/tab_provider.dart';
 import 'package:soul_player/layouts/linux/features/tabs/settings.dart';
 import 'package:soul_player/layouts/linux/features/tabs/tab_library.dart';
 import 'package:soul_player/layouts/linux/linux.dart';
-import 'package:soul_player/layouts/linux/providers/scanner/song_provider.dart';
+import 'package:soul_player/layouts/linux/features/library_scan/controller/lib_scanner.dart';
 import 'package:soul_player/layouts/mobile/utils/snackbar.dart';
 
 import 'components/playback_control.dart';
@@ -66,7 +66,7 @@ class LinuxHome extends StatelessWidget {
             backgroundColor: primary,
             onPressed: () async {
               ref
-                  .read(scanProvider.notifier)
+                  .read(libraryScanerProvider.notifier)
                   .getAllSongs()
                   .then((v) => message('Song Added', context));
             },

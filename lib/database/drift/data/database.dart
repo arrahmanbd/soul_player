@@ -8,7 +8,7 @@ import 'package:soul_player/database/drift/entity/recently_played.dart';
 import '../entity/favourite_songs.dart';
 import '../entity/song_entity.dart'; 
 
-part 'database.g.dart'; // Required for code generation
+part 'database.g.dart'; 
 
 // Function to lazily open the database connection
 LazyDatabase _openConnection() {

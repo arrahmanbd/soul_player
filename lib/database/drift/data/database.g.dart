@@ -91,9 +91,9 @@ class $SongsTable extends Songs with TableInfo<$SongsTable, Song> {
   static const VerificationMeta _pictureMeta =
       const VerificationMeta('picture');
   @override
-  late final GeneratedColumn<String> picture = GeneratedColumn<String>(
+  late final GeneratedColumn<Uint8List> picture = GeneratedColumn<Uint8List>(
       'picture', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      type: DriftSqlType.blob, requiredDuringInsert: true);
   static const VerificationMeta _fileSizeMeta =
       const VerificationMeta('fileSize');
   @override
@@ -105,6 +105,12 @@ class $SongsTable extends Songs with TableInfo<$SongsTable, Song> {
   @override
   late final GeneratedColumn<int> isPlaying = GeneratedColumn<int>(
       'isPlaying', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _isFavoriteMeta =
+      const VerificationMeta('isFavorite');
+  @override
+  late final GeneratedColumn<int> isFavorite = GeneratedColumn<int>(
+      'isFavorite', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
   static const VerificationMeta _folderMeta = const VerificationMeta('folder');
   @override
@@ -131,6 +137,7 @@ class $SongsTable extends Songs with TableInfo<$SongsTable, Song> {
         picture,
         fileSize,
         isPlaying,
+        isFavorite,
         folder
       ];
   @override
@@ -246,6 +253,14 @@ class $SongsTable extends Songs with TableInfo<$SongsTable, Song> {
     } else if (isInserting) {
       context.missing(_isPlayingMeta);
     }
+    if (data.containsKey('isFavorite')) {
+      context.handle(
+          _isFavoriteMeta,
+          isFavorite.isAcceptableOrUnknown(
+              data['isFavorite']!, _isFavoriteMeta));
+    } else if (isInserting) {
+      context.missing(_isFavoriteMeta);
+    }
     if (data.containsKey('folder')) {
       context.handle(_folderMeta,
           folder.isAcceptableOrUnknown(data['folder']!, _folderMeta));
@@ -288,11 +303,13 @@ class $SongsTable extends Songs with TableInfo<$SongsTable, Song> {
       genre: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}genre'])!,
       picture: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}picture'])!,
+          .read(DriftSqlType.blob, data['${effectivePrefix}picture'])!,
       fileSize: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}fileSize'])!,
       isPlaying: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}isPlaying'])!,
+      isFavorite: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}isFavorite'])!,
       folder: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}folder'])!,
     );
@@ -318,9 +335,10 @@ class Song extends DataClass implements Insertable<Song> {
   final int discTotal;
   final int year;
   final String genre;
-  final String picture;
+  final Uint8List picture;
   final int fileSize;
   final int isPlaying;
+  final int isFavorite;
   final String folder;
   const Song(
       {required this.id,
@@ -339,6 +357,7 @@ class Song extends DataClass implements Insertable<Song> {
       required this.picture,
       required this.fileSize,
       required this.isPlaying,
+      required this.isFavorite,
       required this.folder});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -356,9 +375,10 @@ class Song extends DataClass implements Insertable<Song> {
     map['discTotal'] = Variable<int>(discTotal);
     map['year'] = Variable<int>(year);
     map['genre'] = Variable<String>(genre);
-    map['picture'] = Variable<String>(picture);
+    map['picture'] = Variable<Uint8List>(picture);
     map['fileSize'] = Variable<int>(fileSize);
     map['isPlaying'] = Variable<int>(isPlaying);
+    map['isFavorite'] = Variable<int>(isFavorite);
     map['folder'] = Variable<String>(folder);
     return map;
   }
@@ -381,6 +401,7 @@ class Song extends DataClass implements Insertable<Song> {
       picture: Value(picture),
       fileSize: Value(fileSize),
       isPlaying: Value(isPlaying),
+      isFavorite: Value(isFavorite),
       folder: Value(folder),
     );
   }
@@ -402,9 +423,10 @@ class Song extends DataClass implements Insertable<Song> {
       discTotal: serializer.fromJson<int>(json['discTotal']),
       year: serializer.fromJson<int>(json['year']),
       genre: serializer.fromJson<String>(json['genre']),
-      picture: serializer.fromJson<String>(json['picture']),
+      picture: serializer.fromJson<Uint8List>(json['picture']),
       fileSize: serializer.fromJson<int>(json['fileSize']),
       isPlaying: serializer.fromJson<int>(json['isPlaying']),
+      isFavorite: serializer.fromJson<int>(json['isFavorite']),
       folder: serializer.fromJson<String>(json['folder']),
     );
   }
@@ -425,9 +447,10 @@ class Song extends DataClass implements Insertable<Song> {
       'discTotal': serializer.toJson<int>(discTotal),
       'year': serializer.toJson<int>(year),
       'genre': serializer.toJson<String>(genre),
-      'picture': serializer.toJson<String>(picture),
+      'picture': serializer.toJson<Uint8List>(picture),
       'fileSize': serializer.toJson<int>(fileSize),
       'isPlaying': serializer.toJson<int>(isPlaying),
+      'isFavorite': serializer.toJson<int>(isFavorite),
       'folder': serializer.toJson<String>(folder),
     };
   }
@@ -446,9 +469,10 @@ class Song extends DataClass implements Insertable<Song> {
           int? discTotal,
           int? year,
           String? genre,
-          String? picture,
+          Uint8List? picture,
           int? fileSize,
           int? isPlaying,
+          int? isFavorite,
           String? folder}) =>
       Song(
         id: id ?? this.id,
@@ -467,6 +491,7 @@ class Song extends DataClass implements Insertable<Song> {
         picture: picture ?? this.picture,
         fileSize: fileSize ?? this.fileSize,
         isPlaying: isPlaying ?? this.isPlaying,
+        isFavorite: isFavorite ?? this.isFavorite,
         folder: folder ?? this.folder,
       );
   Song copyWithCompanion(SongsCompanion data) {
@@ -492,6 +517,8 @@ class Song extends DataClass implements Insertable<Song> {
       picture: data.picture.present ? data.picture.value : this.picture,
       fileSize: data.fileSize.present ? data.fileSize.value : this.fileSize,
       isPlaying: data.isPlaying.present ? data.isPlaying.value : this.isPlaying,
+      isFavorite:
+          data.isFavorite.present ? data.isFavorite.value : this.isFavorite,
       folder: data.folder.present ? data.folder.value : this.folder,
     );
   }
@@ -515,6 +542,7 @@ class Song extends DataClass implements Insertable<Song> {
           ..write('picture: $picture, ')
           ..write('fileSize: $fileSize, ')
           ..write('isPlaying: $isPlaying, ')
+          ..write('isFavorite: $isFavorite, ')
           ..write('folder: $folder')
           ..write(')'))
         .toString();
@@ -535,9 +563,10 @@ class Song extends DataClass implements Insertable<Song> {
       discTotal,
       year,
       genre,
-      picture,
+      $driftBlobEquality.hash(picture),
       fileSize,
       isPlaying,
+      isFavorite,
       folder);
   @override
   bool operator ==(Object other) =>
@@ -556,9 +585,10 @@ class Song extends DataClass implements Insertable<Song> {
           other.discTotal == this.discTotal &&
           other.year == this.year &&
           other.genre == this.genre &&
-          other.picture == this.picture &&
+          $driftBlobEquality.equals(other.picture, this.picture) &&
           other.fileSize == this.fileSize &&
           other.isPlaying == this.isPlaying &&
+          other.isFavorite == this.isFavorite &&
           other.folder == this.folder);
 }
 
@@ -576,9 +606,10 @@ class SongsCompanion extends UpdateCompanion<Song> {
   final Value<int> discTotal;
   final Value<int> year;
   final Value<String> genre;
-  final Value<String> picture;
+  final Value<Uint8List> picture;
   final Value<int> fileSize;
   final Value<int> isPlaying;
+  final Value<int> isFavorite;
   final Value<String> folder;
   const SongsCompanion({
     this.id = const Value.absent(),
@@ -597,6 +628,7 @@ class SongsCompanion extends UpdateCompanion<Song> {
     this.picture = const Value.absent(),
     this.fileSize = const Value.absent(),
     this.isPlaying = const Value.absent(),
+    this.isFavorite = const Value.absent(),
     this.folder = const Value.absent(),
   });
   SongsCompanion.insert({
@@ -613,9 +645,10 @@ class SongsCompanion extends UpdateCompanion<Song> {
     required int discTotal,
     required int year,
     required String genre,
-    required String picture,
+    required Uint8List picture,
     required int fileSize,
     required int isPlaying,
+    required int isFavorite,
     required String folder,
   })  : location = Value(location),
         title = Value(title),
@@ -632,6 +665,7 @@ class SongsCompanion extends UpdateCompanion<Song> {
         picture = Value(picture),
         fileSize = Value(fileSize),
         isPlaying = Value(isPlaying),
+        isFavorite = Value(isFavorite),
         folder = Value(folder);
   static Insertable<Song> custom({
     Expression<int>? id,
@@ -647,9 +681,10 @@ class SongsCompanion extends UpdateCompanion<Song> {
     Expression<int>? discTotal,
     Expression<int>? year,
     Expression<String>? genre,
-    Expression<String>? picture,
+    Expression<Uint8List>? picture,
     Expression<int>? fileSize,
     Expression<int>? isPlaying,
+    Expression<int>? isFavorite,
     Expression<String>? folder,
   }) {
     return RawValuesInsertable({
@@ -669,6 +704,7 @@ class SongsCompanion extends UpdateCompanion<Song> {
       if (picture != null) 'picture': picture,
       if (fileSize != null) 'fileSize': fileSize,
       if (isPlaying != null) 'isPlaying': isPlaying,
+      if (isFavorite != null) 'isFavorite': isFavorite,
       if (folder != null) 'folder': folder,
     });
   }
@@ -687,9 +723,10 @@ class SongsCompanion extends UpdateCompanion<Song> {
       Value<int>? discTotal,
       Value<int>? year,
       Value<String>? genre,
-      Value<String>? picture,
+      Value<Uint8List>? picture,
       Value<int>? fileSize,
       Value<int>? isPlaying,
+      Value<int>? isFavorite,
       Value<String>? folder}) {
     return SongsCompanion(
       id: id ?? this.id,
@@ -708,6 +745,7 @@ class SongsCompanion extends UpdateCompanion<Song> {
       picture: picture ?? this.picture,
       fileSize: fileSize ?? this.fileSize,
       isPlaying: isPlaying ?? this.isPlaying,
+      isFavorite: isFavorite ?? this.isFavorite,
       folder: folder ?? this.folder,
     );
   }
@@ -755,13 +793,16 @@ class SongsCompanion extends UpdateCompanion<Song> {
       map['genre'] = Variable<String>(genre.value);
     }
     if (picture.present) {
-      map['picture'] = Variable<String>(picture.value);
+      map['picture'] = Variable<Uint8List>(picture.value);
     }
     if (fileSize.present) {
       map['fileSize'] = Variable<int>(fileSize.value);
     }
     if (isPlaying.present) {
       map['isPlaying'] = Variable<int>(isPlaying.value);
+    }
+    if (isFavorite.present) {
+      map['isFavorite'] = Variable<int>(isFavorite.value);
     }
     if (folder.present) {
       map['folder'] = Variable<String>(folder.value);
@@ -788,6 +829,7 @@ class SongsCompanion extends UpdateCompanion<Song> {
           ..write('picture: $picture, ')
           ..write('fileSize: $fileSize, ')
           ..write('isPlaying: $isPlaying, ')
+          ..write('isFavorite: $isFavorite, ')
           ..write('folder: $folder')
           ..write(')'))
         .toString();
@@ -1268,9 +1310,10 @@ typedef $$SongsTableCreateCompanionBuilder = SongsCompanion Function({
   required int discTotal,
   required int year,
   required String genre,
-  required String picture,
+  required Uint8List picture,
   required int fileSize,
   required int isPlaying,
+  required int isFavorite,
   required String folder,
 });
 typedef $$SongsTableUpdateCompanionBuilder = SongsCompanion Function({
@@ -1287,9 +1330,10 @@ typedef $$SongsTableUpdateCompanionBuilder = SongsCompanion Function({
   Value<int> discTotal,
   Value<int> year,
   Value<String> genre,
-  Value<String> picture,
+  Value<Uint8List> picture,
   Value<int> fileSize,
   Value<int> isPlaying,
+  Value<int> isFavorite,
   Value<String> folder,
 });
 
@@ -1323,9 +1367,10 @@ class $$SongsTableTableManager extends RootTableManager<
             Value<int> discTotal = const Value.absent(),
             Value<int> year = const Value.absent(),
             Value<String> genre = const Value.absent(),
-            Value<String> picture = const Value.absent(),
+            Value<Uint8List> picture = const Value.absent(),
             Value<int> fileSize = const Value.absent(),
             Value<int> isPlaying = const Value.absent(),
+            Value<int> isFavorite = const Value.absent(),
             Value<String> folder = const Value.absent(),
           }) =>
               SongsCompanion(
@@ -1345,6 +1390,7 @@ class $$SongsTableTableManager extends RootTableManager<
             picture: picture,
             fileSize: fileSize,
             isPlaying: isPlaying,
+            isFavorite: isFavorite,
             folder: folder,
           ),
           createCompanionCallback: ({
@@ -1361,9 +1407,10 @@ class $$SongsTableTableManager extends RootTableManager<
             required int discTotal,
             required int year,
             required String genre,
-            required String picture,
+            required Uint8List picture,
             required int fileSize,
             required int isPlaying,
+            required int isFavorite,
             required String folder,
           }) =>
               SongsCompanion.insert(
@@ -1383,6 +1430,7 @@ class $$SongsTableTableManager extends RootTableManager<
             picture: picture,
             fileSize: fileSize,
             isPlaying: isPlaying,
+            isFavorite: isFavorite,
             folder: folder,
           ),
         ));
@@ -1456,7 +1504,7 @@ class $$SongsTableFilterComposer
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
-  ColumnFilters<String> get picture => $state.composableBuilder(
+  ColumnFilters<Uint8List> get picture => $state.composableBuilder(
       column: $state.table.picture,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
@@ -1468,6 +1516,11 @@ class $$SongsTableFilterComposer
 
   ColumnFilters<int> get isPlaying => $state.composableBuilder(
       column: $state.table.isPlaying,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get isFavorite => $state.composableBuilder(
+      column: $state.table.isFavorite,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
@@ -1545,7 +1598,7 @@ class $$SongsTableOrderingComposer
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 
-  ColumnOrderings<String> get picture => $state.composableBuilder(
+  ColumnOrderings<Uint8List> get picture => $state.composableBuilder(
       column: $state.table.picture,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
@@ -1557,6 +1610,11 @@ class $$SongsTableOrderingComposer
 
   ColumnOrderings<int> get isPlaying => $state.composableBuilder(
       column: $state.table.isPlaying,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get isFavorite => $state.composableBuilder(
+      column: $state.table.isFavorite,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 

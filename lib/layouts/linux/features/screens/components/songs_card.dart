@@ -3,7 +3,8 @@ import 'package:soul_player/database/drift/data/database.dart';
 import 'package:soul_player/layouts/linux/providers/player/player_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:soul_player/layouts/linux/providers/scanner/song_provider.dart';
+import 'package:soul_player/layouts/linux/features/library_scan/controller/lib_scanner.dart';
+import 'package:soul_player/utils/base64_image.dart';
 import 'package:yaru/yaru.dart';
 
 class SongList extends StatefulWidget {
@@ -46,7 +47,7 @@ class _SongListState extends State<SongList> {
               child: SizedBox(
                 width: 120,
                 height: 120,
-                child: _buildSongImage(song),
+                child: buildSongImage(song.picture),
               ),
             ),
             title: Text(song.title),
@@ -55,14 +56,16 @@ class _SongListState extends State<SongList> {
               builder: (_, WidgetRef ref, __) {
                 return IconButton(
                   onPressed: () {
-                    if (song.isPlaying==0) {
+                    if (song.isPlaying == 0) {
                       ref.read(linuxPlayerProvider.notifier).pause();
                     } else {
                       ref.read(linuxPlayerProvider.notifier).play(song);
                     }
                   },
                   icon: Icon(
-                    song.isPlaying==0 ? Icons.pause : Icons.play_arrow_outlined,
+                    song.isPlaying == 0
+                        ? Icons.pause
+                        : Icons.play_arrow_outlined,
                   ),
                 );
               },
@@ -82,26 +85,17 @@ class _SongListState extends State<SongList> {
               child: Consumer(
                 builder: (_, WidgetRef ref, __) {
                   return ElevatedButton(
-                    onPressed: () {
-                      ref.read(scanProvider.notifier).refreshSongs();
-                    },
-                    child: const Text("Refresh"),
-                  );
+                      onPressed: () async {
+                        // Trigger getAllSongs to start scanning songs
+                        final songScanner =
+                            ref.read(libraryScanerProvider.notifier);
+                        await songScanner.getAllSongs();
+                      },
+                      child: const Text('Scan Library'));
                 },
               ),
             ),
           );
-  }
-
-  Widget _buildSongImage(Song song) {
-    return 
-    // song.picture != null && song.picture!.data.isNotEmpty
-    //     ? Image.memory(
-    //         song.picture!.data,
-    //         fit: BoxFit.cover,
-    //       )
-    //     : 
-        const Icon(Icons.music_note);
   }
 
   Future<void> _loadMoreSongs(BuildContext context) async {

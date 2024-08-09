@@ -6,6 +6,7 @@ import 'package:window_manager/window_manager.dart';
 import 'core/themes/app_theme.dart';
 import 'helper/initilizer.dart';
 import 'layouts/layout.dart';
+import 'providers/context_provider.dart';
 import 'utils/device_utils.dart';
 
 void main(List<String>? args) async {
@@ -21,7 +22,8 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    
+    //safe context
+    //ref.read(buildContextProvider.notifier).update(context);
     final virtualWindowFrameBuilder = VirtualWindowFrameInit();
     final linux = GlobalUtils.desktop;
     // Ensure the unilink provider is initialized with the passed arguments
