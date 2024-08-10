@@ -5,8 +5,7 @@ import 'package:window_manager/window_manager.dart';
 
 import 'core/themes/app_theme.dart';
 import 'helper/initilizer.dart';
-import 'layouts/layout.dart';
-import 'providers/context_provider.dart';
+import 'platform/layout.dart';
 import 'utils/device_utils.dart';
 
 void main(List<String>? args) async {

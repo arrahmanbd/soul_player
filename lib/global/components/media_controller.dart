@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:soul_player/layouts/linux/providers/player/player_state.dart';
-import 'package:soul_player/layouts/mobile/screens/now_playing/providers/nowplaying_providers.dart';
+import 'package:soul_player/platform/linux/features/player/controller/player_state.dart';
+import 'package:soul_player/platform/mobile/screens/now_playing/providers/nowplaying_providers.dart';
 
-import '../../layouts/linux/providers/player/player_provider.dart';
+import '../../platform/linux/features/player/controller/player_provider.dart';
 import 'icon_button.dart';
 
 class LinuxControllButton extends ConsumerWidget {
@@ -14,7 +14,6 @@ class LinuxControllButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final playing = ref.watch(linuxPlayerProvider);
-
 
     // void repeat() {
     //   final repeat = ref.read(nowPlayingProvider.notifier);
@@ -49,18 +48,18 @@ class LinuxControllButton extends ConsumerWidget {
 
     void _onLeftButtonPress() {
       print('Left button pressed');
-       ref.read(linuxPlayerProvider.notifier).playPrevious();
+      ref.read(linuxPlayerProvider.notifier).playPrevious();
     }
 
     void _onRightButtonPress() {
       print('Right button pressed');
-       ref.read(linuxPlayerProvider.notifier).playNext();
+      ref.read(linuxPlayerProvider.notifier).playNext();
     }
 
     void _onPlayPauseButtonPress() {
       print('Play/Pause button pressed');
-      if (playing.mode==PlayerMode.playing) {
-         ref.read(linuxPlayerProvider.notifier).pause();
+      if (playing.mode == RepeatMode.one) {
+        ref.read(linuxPlayerProvider.notifier).pause();
       } else {
         ref.read(linuxPlayerProvider.notifier).resume();
       }
@@ -72,7 +71,7 @@ class LinuxControllButton extends ConsumerWidget {
       children: [
         LinuxButton(
           icon: Icons.repeat,
-          onPressed: (){},
+          onPressed: () {},
           radius: 100,
         ),
         LinuxButton(
@@ -82,7 +81,7 @@ class LinuxControllButton extends ConsumerWidget {
           size: 12,
         ),
         LinuxButton(
-          icon: playing.mode==PlayerMode.playing ? Icons.pause : Icons.play_arrow,
+          icon: playing.mode == RepeatMode.one ? Icons.pause : Icons.play_arrow,
           onPressed: _onPlayPauseButtonPress,
           radius: 100,
           size: 18,
@@ -96,7 +95,7 @@ class LinuxControllButton extends ConsumerWidget {
         ),
         LinuxButton(
           icon: Icons.shuffle,
-          onPressed: (){},
+          onPressed: () {},
           radius: 100,
         )
       ],
