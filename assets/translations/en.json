@@ -1,0 +1,90 @@
+{
+    "app_title": "Music Player",
+    "home": {
+      "title": "Home",
+      "now_playing": "Now Playing",
+      "playlists": "Playlists",
+      "artists": "Artists",
+      "albums": "Albums",
+      "genres": "Genres",
+      "folders": "Folders",
+      "songs": "Songs",
+      "favorites": "Favorites",
+      "recently_played": "Recently Played",
+      "settings": "Settings"
+    },
+    "player": {
+      "play": "Play",
+      "pause": "Pause",
+      "next": "Next",
+      "previous": "Previous",
+      "shuffle": "Shuffle",
+      "repeat": "Repeat",
+      "repeat_one": "Repeat One",
+      "add_to_playlist": "Add to Playlist",
+      "add_to_favorites": "Add to Favorites",
+      "remove_from_favorites": "Remove from Favorites",
+      "now_playing": "Now Playing",
+      "song_info": "Song Info",
+      "duration": "Duration",
+      "album": "Album",
+      "artist": "Artist",
+      "genre": "Genre",
+      "track_number": "Track Number",
+      "year": "Year",
+      "folder": "Folder"
+    },
+    "playlist": {
+      "new_playlist": "New Playlist",
+      "enter_playlist_name": "Enter Playlist Name",
+      "add_songs": "Add Songs",
+      "no_songs": "No Songs",
+      "delete_playlist": "Delete Playlist",
+      "rename_playlist": "Rename Playlist",
+      "playlist_created": "Playlist Created",
+      "playlist_deleted": "Playlist Deleted",
+      "playlist_renamed": "Playlist Renamed"
+    },
+    "search": {
+      "search": "Search",
+      "no_results": "No Results Found",
+      "search_songs": "Search Songs",
+      "search_artists": "Search Artists",
+      "search_albums": "Search Albums"
+    },
+    "settings": {
+      "settings": "Settings",
+      "theme": "Theme",
+      "language": "Language",
+      "about": "About",
+      "version": "Version",
+      "developer": "Developer",
+      "contact_us": "Contact Us",
+      "privacy_policy": "Privacy Policy",
+      "terms_of_service": "Terms of Service"
+    },
+    "common": {
+      "cancel": "Cancel",
+      "ok": "OK",
+      "yes": "Yes",
+      "no": "No",
+      "delete": "Delete",
+      "edit": "Edit",
+      "save": "Save",
+      "close": "Close",
+      "confirm": "Confirm",
+      "loading": "Loading..."
+    },
+    "notifications": {
+      "song_added_to_playlist": "Song added to playlist",
+      "song_removed_from_playlist": "Song removed from playlist",
+      "song_added_to_favorites": "Song added to favorites",
+      "song_removed_from_favorites": "Song removed from favorites"
+    },
+    "errors": {
+      "no_internet": "No Internet Connection",
+      "song_not_found": "Song Not Found",
+      "unable_to_play": "Unable to Play Song",
+      "unexpected_error": "An Unexpected Error Occurred"
+    }
+  }

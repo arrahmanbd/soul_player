@@ -1,0 +1,91 @@
+{
+    "app_title": "Lecteur de Musique",
+    "home": {
+      "title": "Accueil",
+      "now_playing": "En Cours de Lecture",
+      "playlists": "Playlists",
+      "artists": "Artistes",
+      "albums": "Albums",
+      "genres": "Genres",
+      "folders": "Dossiers",
+      "songs": "Chansons",
+      "favorites": "Favoris",
+      "recently_played": "Récemment Écouté",
+      "settings": "Paramètres"
+    },
+    "player": {
+      "play": "Lire",
+      "pause": "Pause",
+      "next": "Suivant",
+      "previous": "Précédent",
+      "shuffle": "Aléatoire",
+      "repeat": "Répéter",
+      "repeat_one": "Répéter Un",
+      "add_to_playlist": "Ajouter à la Playlist",
+      "add_to_favorites": "Ajouter aux Favoris",
+      "remove_from_favorites": "Retirer des Favoris",
+      "now_playing": "En Cours de Lecture",
+      "song_info": "Infos sur la Chanson",
+      "duration": "Durée",
+      "album": "Album",
+      "artist": "Artiste",
+      "genre": "Genre",
+      "track_number": "Numéro de Piste",
+      "year": "Année",
+      "folder": "Dossier"
+    },
+    "playlist": {
+      "new_playlist": "Nouvelle Playlist",
+      "enter_playlist_name": "Entrer le Nom de la Playlist",
+      "add_songs": "Ajouter des Chansons",
+      "no_songs": "Pas de Chansons",
+      "delete_playlist": "Supprimer la Playlist",
+      "rename_playlist": "Renommer la Playlist",
+      "playlist_created": "Playlist Créée",
+      "playlist_deleted": "Playlist Supprimée",
+      "playlist_renamed": "Playlist Renommée"
+    },
+    "search": {
+      "search": "Recherche",
+      "no_results": "Aucun Résultat Trouvé",
+      "search_songs": "Rechercher des Chansons",
+      "search_artists": "Rechercher des Artistes",
+      "search_albums": "Rechercher des Albums"
+    },
+    "settings": {
+      "settings": "Paramètres",
+      "theme": "Thème",
+      "language": "Langue",
+      "about": "À Propos",
+      "version": "Version",
+      "developer": "Développeur",
+      "contact_us": "Contactez-nous",
+      "privacy_policy": "Politique de Confidentialité",
+      "terms_of_service": "Conditions d'Utilisation"
+    },
+    "common": {
+      "cancel": "Annuler",
+      "ok": "OK",
+      "yes": "Oui",
+      "no": "Non",
+      "delete": "Supprimer",
+      "edit": "Modifier",
+      "save": "Enregistrer",
+      "close": "Fermer",
+      "confirm": "Confirmer",
+      "loading": "Chargement..."
+    },
+    "notifications": {
+      "song_added_to_playlist": "Chanson ajoutée à la playlist",
+      "song_removed_from_playlist": "Chanson retirée de la playlist",
+      "song_added_to_favorites": "Chanson ajoutée aux favoris",
+      "song_removed_from_favorites": "Chanson retirée des favoris"
+    },
+    "errors": {
+      "no_internet": "Pas de Connexion Internet",
+      "song_not_found": "Chanson Non Trouvée",
+      "unable_to_play": "Impossible de Lire la Chanson",
+      "unexpected_error": "Une Erreur Inattendue s'est Produite"
+    }
+  }
+  

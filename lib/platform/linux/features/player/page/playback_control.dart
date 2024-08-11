@@ -7,7 +7,9 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:soul_player/core/styles/theme_text.dart';
 import 'package:soul_player/database/data/database.dart';
 import 'package:soul_player/database/repository/database_repository.dart';
+import 'package:soul_player/global/extensions/theme_ext.dart';
 import 'package:soul_player/platform/linux/features/player/controller/player_provider.dart';
+import 'package:soul_player/providers/color_schema_provider.dart';
 import 'package:soul_player/utils/base64_image.dart';
 
 import '../widgets/control_buttons.dart';
@@ -18,10 +20,11 @@ class PlayBackControl extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final player = ref.watch(linuxPlayerProvider);
+     final colorScheme = ref.watch(colorSchemeProvider);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       height: 150,
-      color: Color.fromARGB(255, 40, 157, 235),
+      color: colorScheme.primary,
       //decoration: const BoxDecoration(color: Color.fromARGB(255, 3, 179, 185)),
       child: Column(
         children: [
@@ -79,8 +82,8 @@ class PlayBackControl extends ConsumerWidget {
                 children: [
                   IconButton(
                     icon: player.isFavorite
-                        ? Icon(Icons.favorite)
-                        : Icon(Icons.favorite_border),
+                        ? const Icon(Icons.favorite)
+                        : const Icon(Icons.favorite_border),
                     onPressed: () {
                       ref.read(databaseRepository).markAsFavorite(0);
                     },

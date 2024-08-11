@@ -1,0 +1,91 @@
+{
+    "app_title": "音乐播放器",
+    "home": {
+      "title": "首页",
+      "now_playing": "正在播放",
+      "playlists": "播放列表",
+      "artists": "艺术家",
+      "albums": "专辑",
+      "genres": "类型",
+      "folders": "文件夹",
+      "songs": "歌曲",
+      "favorites": "收藏",
+      "recently_played": "最近播放",
+      "settings": "设置"
+    },
+    "player": {
+      "play": "播放",
+      "pause": "暂停",
+      "next": "下一首",
+      "previous": "上一首",
+      "shuffle": "随机播放",
+      "repeat": "循环",
+      "repeat_one": "单曲循环",
+      "add_to_playlist": "添加到播放列表",
+      "add_to_favorites": "添加到收藏",
+      "remove_from_favorites": "从收藏中移除",
+      "now_playing": "正在播放",
+      "song_info": "歌曲信息",
+      "duration": "时长",
+      "album": "专辑",
+      "artist": "艺术家",
+      "genre": "类型",
+      "track_number": "曲目编号",
+      "year": "年份",
+      "folder": "文件夹"
+    },
+    "playlist": {
+      "new_playlist": "新建播放列表",
+      "enter_playlist_name": "输入播放列表名称",
+      "add_songs": "添加歌曲",
+      "no_songs": "没有歌曲",
+      "delete_playlist": "删除播放列表",
+      "rename_playlist": "重命名播放列表",
+      "playlist_created": "播放列表已创建",
+      "playlist_deleted": "播放列表已删除",
+      "playlist_renamed": "播放列表已重命名"
+    },
+    "search": {
+      "search": "搜索",
+      "no_results": "未找到结果",
+      "search_songs": "搜索歌曲",
+      "search_artists": "搜索艺术家",
+      "search_albums": "搜索专辑"
+    },
+    "settings": {
+      "settings": "设置",
+      "theme": "主题",
+      "language": "语言",
+      "about": "关于",
+      "version": "版本",
+      "developer": "开发者",
+      "contact_us": "联系我们",
+      "privacy_policy": "隐私政策",
+      "terms_of_service": "服务条款"
+    },
+    "common": {
+      "cancel": "取消",
+      "ok": "确定",
+      "yes": "是",
+      "no": "否",
+      "delete": "删除",
+      "edit": "编辑",
+      "save": "保存",
+      "close": "关闭",
+      "confirm": "确认",
+      "loading": "加载中..."
+    },
+    "notifications": {
+      "song_added_to_playlist": "歌曲已添加到播放列表",
+      "song_removed_from_playlist": "歌曲已从播放列表中移除",
+      "song_added_to_favorites": "歌曲已添加到收藏",
+      "song_removed_from_favorites": "歌曲已从收藏中移除"
+    },
+    "errors": {
+      "no_internet": "没有网络连接",
+      "song_not_found": "未找到歌曲",
+      "unable_to_play": "无法播放歌曲",
+      "unexpected_error": "发生意外错误"
+    }
+  }
+  

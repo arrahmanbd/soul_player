@@ -1,13 +1,16 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:libadwaita/libadwaita.dart';
 import 'package:libadwaita_window_manager/libadwaita_window_manager.dart';
+import 'package:soul_player/core/constants/strings.dart';
 import 'package:soul_player/core/styles/theme_text.dart';
-import 'package:soul_player/database/repository/database_repository.dart';
+import 'package:soul_player/global/components/color_schema_selector.dart';
+import 'package:soul_player/global/components/language_selector.dart';
 import 'package:soul_player/global/extensions/contex.dart';
 import 'package:soul_player/platform/linux/features/home_page.dart';
-import 'package:soul_player/platform/linux/features/library_scan/controller/lib_scanner.dart';
 import 'package:soul_player/platform/linux/features/provider/tab_provider.dart';
+import 'package:soul_player/utils/color_selector.dart';
 
 import 'features/player/page/playback_control.dart';
 
@@ -37,19 +40,9 @@ class InternalBody extends StatelessWidget {
             //showMaterialBanner(context);
           },
         ),
-        Consumer(
-          builder: (_, WidgetRef ref, __) {
-            return IconButton(
-              icon: const Icon(Icons.copy_all),
-              onPressed: () {
-                ref.read(databaseRepository).removeDuplicate();
-                ref.read(libraryScanerProvider.notifier).refreshSongs();
-              },
-            );
-          },
-        ),
+        LanguageSelector()
       ],
-      title: const Text('Soul Player'),
+      title: const Text(AppString.appName),
       body: Row(
         children: [
           if (context.sizeWidth > 850) const SideDrawer(),
@@ -83,8 +76,8 @@ class SideDrawer extends StatelessWidget {
                   ref.read(tabBarProvider.notifier).state = Tabs.home;
                 },
                 leading: const Icon(Icons.home),
-                title: const Text(
-                  'Home',
+                title: Text(
+                  'home.title'.tr(),
                   style: Typo.bodyMedium,
                 ),
               ),
@@ -94,24 +87,36 @@ class SideDrawer extends StatelessWidget {
                   ref.read(tabBarProvider.notifier).state = Tabs.library;
                 },
                 leading: const Icon(Icons.music_note_outlined),
-                title: const Text(
-                  'Library',
+                title: Text(
+                  'home.songs'.tr(),
                   style: Typo.bodyMedium,
                 ),
               ),
-              const ListTile(
+              ListTile(
                 leading: Icon(Icons.folder_outlined),
                 title: Text(
-                  'Folders',
+                  'home.folders'.tr(),
                   style: Typo.bodyMedium,
                 ),
               ),
-              const ListTile(
-                leading: Icon(Icons.style),
-                title: Text(
-                  'Themes',
-                  style: Typo.bodyMedium,
-                ),
+              Consumer(
+                builder: (_, WidgetRef ref, __) {
+                  return ListTile(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return ColorSelectorAlert();
+                        },
+                      );
+                    },
+                    leading: Icon(Icons.style),
+                    title: Text(
+                      AppString.theme,
+                      style: Typo.bodyMedium,
+                    ),
+                  );
+                },
               ),
               ListTile(
                 selected: selected == Tabs.settings,
@@ -119,22 +124,22 @@ class SideDrawer extends StatelessWidget {
                   ref.read(tabBarProvider.notifier).state = Tabs.settings;
                 },
                 leading: const Icon(Icons.settings_outlined),
-                title: const Text(
-                  'Settings',
+                title: Text(
+                  'settings.settings'.tr(),
                   style: Typo.bodyMedium,
                 ),
               ),
               const ListTile(
                 leading: Icon(Icons.cached_outlined),
                 title: Text(
-                  'Reload',
+                  AppString.reload,
                   style: Typo.bodyMedium,
                 ),
               ),
-              const ListTile(
+              ListTile(
                 leading: Icon(Icons.info_outline),
                 title: Text(
-                  'About',
+                  'settings.about'.tr(),
                   style: Typo.bodyMedium,
                 ),
               ),

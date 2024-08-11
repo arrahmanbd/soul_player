@@ -1,0 +1,91 @@
+{
+    "app_title": "مُشغل الموسيقى",
+    "home": {
+      "title": "الصفحة الرئيسية",
+      "now_playing": "يتم التشغيل الآن",
+      "playlists": "قوائم التشغيل",
+      "artists": "الفنانون",
+      "albums": "الألبومات",
+      "genres": "الأنواع",
+      "folders": "المجلدات",
+      "songs": "الأغاني",
+      "favorites": "المفضلات",
+      "recently_played": "تم التشغيل مؤخرًا",
+      "settings": "الإعدادات"
+    },
+    "player": {
+      "play": "تشغيل",
+      "pause": "إيقاف مؤقت",
+      "next": "التالي",
+      "previous": "السابق",
+      "shuffle": "عشوائي",
+      "repeat": "تكرار",
+      "repeat_one": "تكرار واحدة",
+      "add_to_playlist": "إضافة إلى قائمة التشغيل",
+      "add_to_favorites": "إضافة إلى المفضلات",
+      "remove_from_favorites": "إزالة من المفضلات",
+      "now_playing": "يتم التشغيل الآن",
+      "song_info": "معلومات الأغنية",
+      "duration": "المدة",
+      "album": "الألبوم",
+      "artist": "الفنان",
+      "genre": "النوع",
+      "track_number": "رقم المسار",
+      "year": "السنة",
+      "folder": "المجلد"
+    },
+    "playlist": {
+      "new_playlist": "قائمة تشغيل جديدة",
+      "enter_playlist_name": "أدخل اسم قائمة التشغيل",
+      "add_songs": "إضافة الأغاني",
+      "no_songs": "لا توجد أغانٍ",
+      "delete_playlist": "حذف قائمة التشغيل",
+      "rename_playlist": "إعادة تسمية قائمة التشغيل",
+      "playlist_created": "تم إنشاء قائمة التشغيل",
+      "playlist_deleted": "تم حذف قائمة التشغيل",
+      "playlist_renamed": "تمت إعادة تسمية قائمة التشغيل"
+    },
+    "search": {
+      "search": "بحث",
+      "no_results": "لم يتم العثور على نتائج",
+      "search_songs": "بحث عن الأغاني",
+      "search_artists": "بحث عن الفنانين",
+      "search_albums": "بحث عن الألبومات"
+    },
+    "settings": {
+      "settings": "الإعدادات",
+      "theme": "السمة",
+      "language": "اللغة",
+      "about": "حول",
+      "version": "الإصدار",
+      "developer": "المطور",
+      "contact_us": "اتصل بنا",
+      "privacy_policy": "سياسة الخصوصية",
+      "terms_of_service": "شروط الخدمة"
+    },
+    "common": {
+      "cancel": "إلغاء",
+      "ok": "حسنًا",
+      "yes": "نعم",
+      "no": "لا",
+      "delete": "حذف",
+      "edit": "تحرير",
+      "save": "حفظ",
+      "close": "إغلاق",
+      "confirm": "تأكيد",
+      "loading": "جارٍ التحميل..."
+    },
+    "notifications": {
+      "song_added_to_playlist": "تمت إضافة الأغنية إلى قائمة التشغيل",
+      "song_removed_from_playlist": "تمت إزالة الأغنية من قائمة التشغيل",
+      "song_added_to_favorites": "تمت إضافة الأغنية إلى المفضلات",
+      "song_removed_from_favorites": "تمت إزالة الأغنية من المفضلات"
+    },
+    "errors": {
+      "no_internet": "لا يوجد اتصال بالإنترنت",
+      "song_not_found": "الأغنية غير موجودة",
+      "unable_to_play": "لا يمكن تشغيل الأغنية",
+      "unexpected_error": "حدث خطأ غير متوقع"
+    }
+  }
+  

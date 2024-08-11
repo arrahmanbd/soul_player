@@ -1,0 +1,91 @@
+{
+    "app_title": "মিউজিক প্লেয়ার",
+    "home": {
+      "title": "হোম",
+      "now_playing": "এখন বাজছে",
+      "playlists": "প্লেলিস্ট",
+      "artists": "শিল্পী",
+      "albums": "অ্যালবাম",
+      "genres": "ধরন",
+      "folders": "ফোল্ডার",
+      "songs": "গান",
+      "favorites": "পছন্দের",
+      "recently_played": "সম্প্রতি বাজানো",
+      "settings": "সেটিংস"
+    },
+    "player": {
+      "play": "বাজান",
+      "pause": "বিরতি",
+      "next": "পরবর্তী",
+      "previous": "পূর্ববর্তী",
+      "shuffle": "এলোমেলো",
+      "repeat": "পুনরাবৃত্তি",
+      "repeat_one": "একবার পুনরাবৃত্তি",
+      "add_to_playlist": "প্লেলিস্টে যোগ করুন",
+      "add_to_favorites": "পছন্দের তালিকায় যোগ করুন",
+      "remove_from_favorites": "পছন্দের তালিকা থেকে সরান",
+      "now_playing": "এখন বাজছে",
+      "song_info": "গানের তথ্য",
+      "duration": "সময়কাল",
+      "album": "অ্যালবাম",
+      "artist": "শিল্পী",
+      "genre": "ধরন",
+      "track_number": "ট্র্যাক নম্বর",
+      "year": "বছর",
+      "folder": "ফোল্ডার"
+    },
+    "playlist": {
+      "new_playlist": "নতুন প্লেলিস্ট",
+      "enter_playlist_name": "প্লেলিস্টের নাম লিখুন",
+      "add_songs": "গান যোগ করুন",
+      "no_songs": "কোন গান নেই",
+      "delete_playlist": "প্লেলিস্ট মুছে দিন",
+      "rename_playlist": "প্লেলিস্টের নাম পরিবর্তন করুন",
+      "playlist_created": "প্লেলিস্ট তৈরি হয়েছে",
+      "playlist_deleted": "প্লেলিস্ট মুছে ফেলা হয়েছে",
+      "playlist_renamed": "প্লেলিস্টের নাম পরিবর্তিত হয়েছে"
+    },
+    "search": {
+      "search": "অনুসন্ধান",
+      "no_results": "কোন ফলাফল পাওয়া যায়নি",
+      "search_songs": "গান অনুসন্ধান করুন",
+      "search_artists": "শিল্পী অনুসন্ধান করুন",
+      "search_albums": "অ্যালবাম অনুসন্ধান করুন"
+    },
+    "settings": {
+      "settings": "সেটিংস",
+      "theme": "থিম",
+      "language": "ভাষা",
+      "about": "সম্পর্কে",
+      "version": "সংস্করণ",
+      "developer": "উন্নয়নকারী",
+      "contact_us": "যোগাযোগ করুন",
+      "privacy_policy": "গোপনীয়তা নীতি",
+      "terms_of_service": "পরিষেবার শর্তাবলী"
+    },
+    "common": {
+      "cancel": "বাতিল করুন",
+      "ok": "ঠিক আছে",
+      "yes": "হ্যাঁ",
+      "no": "না",
+      "delete": "মুছে দিন",
+      "edit": "সম্পাদনা",
+      "save": "সংরক্ষণ করুন",
+      "close": "বন্ধ করুন",
+      "confirm": "নিশ্চিত করুন",
+      "loading": "লোড হচ্ছে..."
+    },
+    "notifications": {
+      "song_added_to_playlist": "গান প্লেলিস্টে যোগ করা হয়েছে",
+      "song_removed_from_playlist": "গান প্লেলিস্ট থেকে সরানো হয়েছে",
+      "song_added_to_favorites": "গান পছন্দের তালিকায় যোগ করা হয়েছে",
+      "song_removed_from_favorites": "গান পছন্দের তালিকা থেকে সরানো হয়েছে"
+    },
+    "errors": {
+      "no_internet": "ইন্টারনেট সংযোগ নেই",
+      "song_not_found": "গান পাওয়া যায়নি",
+      "unable_to_play": "গান বাজানো যাচ্ছে না",
+      "unexpected_error": "অপ্রত্যাশিত ত্রুটি ঘটেছে"
+    }
+  }
+  

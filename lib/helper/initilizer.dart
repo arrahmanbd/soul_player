@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -6,10 +7,17 @@ import 'package:metadata_god/metadata_god.dart';
 import 'package:on_audio_room/on_audio_room.dart';
 import 'package:soul_player/utils/device_utils.dart';
 
+import '../providers/shared_preference.dart';
+
 class StartupService {
   StartupService._StartupService();
 
   static Future<void> initialize() async {
+    //intialize locale
+    await EasyLocalization.ensureInitialized();
+    //initialize sharedpreference
+    final prefsService = SharedPreferencesService();
+    await prefsService.init();
     if (GlobalUtils.mobile) {
       //  Initialize database for mobile
       await OnAudioRoom().initRoom();
