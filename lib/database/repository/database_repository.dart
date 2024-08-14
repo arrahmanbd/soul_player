@@ -4,10 +4,10 @@ import 'package:soul_player/core/errors/failur.dart';
 import '../data/database.dart';
 import 'repo_abstract.dart'; // Import the generated database
 
-class DataBaseIMP implements SongRepository {
+class DatabaseRepository implements SongRepository {
   final AppDatabase _db;
 
-  DataBaseIMP(this._db);
+  DatabaseRepository(this._db);
 
   // Get all songs
   @override
@@ -215,32 +215,31 @@ class DataBaseIMP implements SongRepository {
     return (_db.select(_db.songs)..where((tbl) => tbl.folder.equals(folder)))
         .get();
   }
-  
+
   @override
   Future<void> removeDuplicate() async {
-  // Step 1: Fetch all songs, grouped by title and artist, that have duplicates
-  final duplicates = await (_db.selectOnly(_db.songs)
-    ..addColumns([_db.songs.id])
-    ..where(_db.songs.id.isNotInQuery(
-      _db.selectOnly(_db.songs)
-        ..addColumns([_db.songs.id.min()])
-        ..groupBy([_db.songs.title, _db.songs.artist]),
-    )))
-      .map((row) => row.read(_db.songs.id)!)
-      .get();
+    // Step 1: Fetch all songs, grouped by title and artist, that have duplicates
+    final duplicates = await (_db.selectOnly(_db.songs)
+          ..addColumns([_db.songs.id])
+          ..where(_db.songs.id.isNotInQuery(
+            _db.selectOnly(_db.songs)
+              ..addColumns([_db.songs.id.min()])
+              ..groupBy([_db.songs.title, _db.songs.artist]),
+          )))
+        .map((row) => row.read(_db.songs.id)!)
+        .get();
 
-  // Step 2: Delete the duplicates
-  await _db.batch((batch) {
-    for (final id in duplicates) {
-      batch.deleteWhere(_db.songs, (tbl) => tbl.id.equals(id));
-    }
-  });
-}
-
+    // Step 2: Delete the duplicates
+    await _db.batch((batch) {
+      for (final id in duplicates) {
+        batch.deleteWhere(_db.songs, (tbl) => tbl.id.equals(id));
+      }
+    });
+  }
 }
 
 //creating provider
-final databaseRepository = Provider<DataBaseIMP>((ref) {
+final databaseRepository = Provider<DatabaseRepository>((ref) {
   final db = ref.read(appDatabase);
-  return DataBaseIMP(db);
+  return DatabaseRepository(db);
 });

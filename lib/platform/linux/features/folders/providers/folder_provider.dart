@@ -1,10 +1,9 @@
-
 import 'package:soul_player/database/repository/database_repository.dart';
 import 'package:soul_player/platform/linux/features/folders/providers/state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FolderNotifier extends StateNotifier<FolderBrowser> {
-  DataBaseIMP db;
+  DatabaseRepository db;
   FolderBrowser initial;
   FolderNotifier(
     this.db,

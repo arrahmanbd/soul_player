@@ -5,7 +5,6 @@ import 'package:libadwaita/libadwaita.dart';
 import 'package:libadwaita_window_manager/libadwaita_window_manager.dart';
 import 'package:soul_player/core/constants/strings.dart';
 import 'package:soul_player/core/styles/theme_text.dart';
-import 'package:soul_player/global/components/color_schema_selector.dart';
 import 'package:soul_player/global/components/language_selector.dart';
 import 'package:soul_player/global/extensions/contex.dart';
 import 'package:soul_player/platform/linux/features/home_page.dart';
@@ -93,7 +92,7 @@ class SideDrawer extends StatelessWidget {
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.folder_outlined),
+                leading: const Icon(Icons.folder_outlined),
                 title: Text(
                   'home.folders'.tr(),
                   style: Typo.bodyMedium,
@@ -110,8 +109,8 @@ class SideDrawer extends StatelessWidget {
                         },
                       );
                     },
-                    leading: Icon(Icons.style),
-                    title: Text(
+                    leading: const Icon(Icons.style),
+                    title: const Text(
                       AppString.theme,
                       style: Typo.bodyMedium,
                     ),
@@ -137,7 +136,7 @@ class SideDrawer extends StatelessWidget {
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.info_outline),
+                leading: const Icon(Icons.info_outline),
                 title: Text(
                   'settings.about'.tr(),
                   style: Typo.bodyMedium,

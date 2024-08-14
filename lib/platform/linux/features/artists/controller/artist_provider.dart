@@ -4,7 +4,7 @@ import 'package:soul_player/database/repository/database_repository.dart';
 import 'artist_state.dart';
 
 class ArtistsNotifier extends StateNotifier<ArtistState> {
-  final DataBaseIMP repo;
+  final DatabaseRepository repo;
   ArtistsNotifier(this.repo, super.state) {
     getAllArtist();
   }

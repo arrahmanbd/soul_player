@@ -1,5 +1,6 @@
 import 'package:soul_player/database/data/database.dart';
 import 'package:soul_player/database/data/dummy_song.dart';
+import 'package:soul_player/database/repository/database_repository.dart';
 import 'package:soul_player/platform/linux/features/player/controller/player_state.dart';
 import 'package:soul_player/platform/linux/services/audio_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,7 +23,7 @@ class LinuxPlayerNotifier extends StateNotifier<PlayerState> {
 
   void updateScreen(Song current) {
     print(current.title.toString());
-    state= state.copyWith(isPlaying: true, isFavorite: false, currentSong: current);
+    state = state.copyWith(isPlaying: true, currentSong: current);
   }
 
   void stop() {
@@ -64,6 +65,12 @@ class LinuxPlayerNotifier extends StateNotifier<PlayerState> {
 
   void seek(Duration duration) {
     audioPlayer.seekAudio(duration);
+  }
+
+  //set favorite
+  void setFavorite(int id) {
+    ref.read(databaseRepository).markAsFavorite(id);
+    state = state.copyWith(isFavorite: !state.isFavorite);
   }
 }
 

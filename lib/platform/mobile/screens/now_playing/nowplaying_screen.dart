@@ -8,7 +8,6 @@ import 'package:soul_player/platform/mobile/components/album_art.dart';
 import 'package:soul_player/platform/mobile/screens/now_playing/media_control.dart';
 import 'package:soul_player/platform/mobile/screens/now_playing/providers/nowplaying_providers.dart';
 import 'package:soul_player/platform/mobile/screens/now_playing/widgets/icon_button.dart';
-import 'package:soul_player/platform/mobile/screens/settings/setting.dart';
 import 'package:soul_player/platform/mobile/screens/settings/setting_controller.dart';
 
 import '../library/library_screen.dart';

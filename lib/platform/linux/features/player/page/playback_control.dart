@@ -3,11 +3,8 @@
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:soul_player/core/styles/theme_text.dart';
-import 'package:soul_player/database/data/database.dart';
 import 'package:soul_player/database/repository/database_repository.dart';
-import 'package:soul_player/global/extensions/theme_ext.dart';
 import 'package:soul_player/platform/linux/features/player/controller/player_provider.dart';
 import 'package:soul_player/providers/color_schema_provider.dart';
 import 'package:soul_player/utils/base64_image.dart';
@@ -20,7 +17,7 @@ class PlayBackControl extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final player = ref.watch(linuxPlayerProvider);
-     final colorScheme = ref.watch(colorSchemeProvider);
+    final colorScheme = ref.watch(colorSchemeProvider);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       height: 150,
@@ -85,7 +82,10 @@ class PlayBackControl extends ConsumerWidget {
                         ? const Icon(Icons.favorite)
                         : const Icon(Icons.favorite_border),
                     onPressed: () {
-                      ref.read(databaseRepository).markAsFavorite(0);
+                      print(player.currentSong.id);
+                      ref
+                          .read(linuxPlayerProvider.notifier)
+                          .setFavorite(player.currentSong.id);
                     },
                   ),
                   IconButton(

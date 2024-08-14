@@ -1,11 +1,8 @@
-import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesService {
-  static const String _languageCodeKey = 'language_code';
-  static const String _countryCodeKey = 'country_code';
   // Singleton instance
   static final SharedPreferencesService _instance =
       SharedPreferencesService._internal();
@@ -86,17 +83,6 @@ class SharedPreferencesService {
     await _preferences?.clear();
   }
 
-  // Save Localization
-  Future<void> saveLanguage(Locale locale) async {
-    await _preferences?.setString(_languageCodeKey, locale.languageCode);
-    await _preferences?.setString(_countryCodeKey, locale.countryCode ?? '');
-  }
-
-  Future<Locale> loadLanguage() async {
-    final languageCode = _preferences?.getString(_languageCodeKey) ?? 'en';
-    final countryCode = _preferences?.getString(_countryCodeKey);
-    return Locale(languageCode, countryCode);
-  }
 }
 
 final sharedPreferencesProvider = Provider<SharedPreferencesService>((ref) {

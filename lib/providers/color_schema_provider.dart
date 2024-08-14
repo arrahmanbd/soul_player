@@ -5,9 +5,9 @@ import 'package:soul_player/providers/shared_preference.dart';
 
 class ColorSchemeNotifier extends StateNotifier<ColorScheme> {
   static const String _colorSchemeKey = 'color_scheme';
-  final _prefs = SharedPreferencesService();
+  final SharedPreferencesService _prefs;
 
-  ColorSchemeNotifier() : super(colorScheme1) {
+  ColorSchemeNotifier(this._prefs) : super(colorScheme1) {
     _loadColorScheme();
   }
 
@@ -44,7 +44,7 @@ class ColorSchemeNotifier extends StateNotifier<ColorScheme> {
     }
   }
 
-  //Save LOcally
+  //Save Locally
 
   Future<void> saveColorScheme(int index) async {
     await _prefs.saveInt(_colorSchemeKey, index);
@@ -56,5 +56,5 @@ class ColorSchemeNotifier extends StateNotifier<ColorScheme> {
 }
 
 final colorSchemeProvider = StateNotifierProvider<ColorSchemeNotifier, ColorScheme>((ref) {
-  return ColorSchemeNotifier();
+  return ColorSchemeNotifier(SharedPreferencesService());
 });

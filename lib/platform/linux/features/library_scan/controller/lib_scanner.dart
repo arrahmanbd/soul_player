@@ -15,7 +15,7 @@ import 'package:soul_player/providers/context_provider.dart';
 import 'package:soul_player/utils/base64_image.dart';
 
 class LibraryScanning extends StateNotifier<List<Song>> {
-  final DataBaseIMP repo;
+  final DatabaseRepository repo;
   final ErrorHandler errorHandler;
 
   LibraryScanning(

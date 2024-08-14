@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:soul_player/global/extensions/contex.dart';
 import 'package:soul_player/platform/linux/features/widgets/song_card.dart';
 
-
 import '../widgets/headline.dart';
 import '../widgets/search_widget.dart';
 import '../widgets/song_tile.dart';

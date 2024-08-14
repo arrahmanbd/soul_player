@@ -10,8 +10,9 @@ import 'package:soul_player/utils/device_utils.dart';
 import '../providers/shared_preference.dart';
 
 class StartupService {
-  StartupService._StartupService();
-
+  //StartupService._StartupService();
+  StartupService._internal();
+  
   static Future<void> initialize() async {
     //intialize locale
     await EasyLocalization.ensureInitialized();
@@ -29,12 +30,6 @@ class StartupService {
           AwesomeNotifications().requestPermissionToSendNotifications();
         }
       });
-      //  Initialize Notification
-      //  await JustAudioBackground.init(
-      //  androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
-      //  androidNotificationChannelName: 'Audio playback',
-      //  androidNotificationOngoing: true,
-      // );
       AwesomeNotifications().initialize(
           // set the icon to null if you want to use the default app icon
           'resource://mipmap-hdpi/ic_launcher',
