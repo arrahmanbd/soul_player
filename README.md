@@ -1,7 +1,7 @@
 ## BrokenSoul Music Player 💔 
 In a world filled with chaos and selfish, there lies a refuge for the broken-hearted and the lonely. Introducing BrokenSoul Music Player, a sanctuary crafted solely for the Linux ecosystem. This is not just another music player; it is a testament to the fragments of a shattered heart, pieced together by melodies and harmonies.
 
-![screenshot_linux](screenshot/linux.png)
+![screenshot_linux](preview/cover.png)
 ## Description
 BrokenSoul Music Player is designed with the forlorn in mind. Each feature and interface element echoes the deep sighs of a soul wandering through the desolate corridors of loneliness. It's more than a player; it's a companion for those solitary nights, where music becomes the only friend that understands your silence and the pains of her memory .
 ## Features
